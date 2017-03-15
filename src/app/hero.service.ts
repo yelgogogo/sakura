@@ -14,6 +14,7 @@ export class HeroService {
 	constructor(private http: Http) { }
   //private workspacesUrl = HOST+'workspaces';  // URL to web api Workspaces
 	private bayUrl = this.HOST +'bay';
+  private mybayUrl = this.HOST +'mybay';
   private storyUrl = this.HOST +'story';
   private commentUrl = this.HOST +'comment';
   private storybyidUrl = this.HOST+'storybyid';
@@ -33,6 +34,19 @@ export class HeroService {
     	.catch(this.handleError);
 	}
 
+  myBay(user:User): Promise<Bay> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('user', JSON.stringify({id:user.id,bayid:user.bayid}));
+
+    return this.http
+      .get(this.mybayUrl,{ search: params })
+      .toPromise()
+      .then(response => 
+        { console.log(response.json().data);
+          return response.json().data as Bay;})
+      .catch(this.handleError);
+  }
+
 	private handleError(error: any): Promise<any> {
 	    console.error('An error occurred', error);
 	    return Promise.reject(error.message || error);
@@ -43,6 +57,20 @@ export class HeroService {
     //   return this.putStory(story);
     // }
     return this.postStory(story);
+  }
+
+  // update Bay with cover and name
+  updateBay(bay: Bay): Promise<Bay> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    console.log(bay);
+    let updatebayurl = `${this.bayUrl}/${bay.id}`;
+    return this.http
+      .put(updatebayurl, JSON.stringify(bay), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data as Bay)
+      .catch(this.handleError);
   }
 
   // Add new Story
@@ -99,6 +127,20 @@ export class HeroService {
       .then(res => res.json().data)
       .catch(this.handleError);
       
+  }
+
+  // update User with cover and name
+  updateUser(user: User): Promise<User> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    console.log(user);
+    let updateurl = `${this.usersUrl}/${user.id}`;
+    return this.http
+      .put(updateurl, JSON.stringify(user), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data as User)
+      .catch(this.handleError);
   }
 
   getUserByName(user: User): Promise<User> {

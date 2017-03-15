@@ -6,3 +6,17 @@
     display: initial;
     width: 50%;
 }
+
+.fabbtn{
+   float: right;
+   position: absolute;
+    right: 30px;
+    top: -20px;
+}
+
+.example-header-image {
+/*  background-image: url('../assets/img/mic.jpg');*/
+  background-size: cover;
+  width: 40px;
+  border-radius: 50%;
+}

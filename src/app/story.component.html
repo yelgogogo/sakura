@@ -4,7 +4,7 @@
   </md-card>
     <md-card  >
         <md-card-header>
-          <div md-card-avatar class="example-header-image" ></div>
+          <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + story.avatar + ')'" ></div>
           <md-card-title>{{story.title}}</md-card-title>
           <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
         </md-card-header>
@@ -40,7 +40,7 @@
   
   <md-card *ngFor="let cmt of story.comments">
     <md-card-header>
-          <div md-card-avatar class="example-header-image" ></div>
+          <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + cmt.avatar + ')'"></div>
           <md-card-title>{{cmt.title}}</md-card-title>
           <md-card-subtitle>{{cmt.role}} {{cmt.starttime}}</md-card-subtitle>
         </md-card-header>

@@ -1,26 +1,109 @@
-<div class="signup jumbotron center-block">
-  <h1>注册</h1>
-  <form role="form" (submit)="signup($event, user.value, password.value, nickname.value)">
-  <div class="form-group">
-  <label for="user"></label>
-    <md-input-container>
-    <input mdInput type="text" #user class="form-control" id="user" placeholder="用户名">
+<div class="signup jumbotron center-block" *ngIf="user">
+  <h3>个人</h3>
+  <md-card  >
+        <md-card-header>
+          <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + user.avatar + ')'"></div>
+          <md-card-title>{{user.nickname}}</md-card-title>
+          <md-card-subtitle>{{user.role}} {{user.name}}</md-card-subtitle>
+        </md-card-header>
+<!--         <md-card-content>
+          <br>
+          <h5>{{user.subtitle}}</h5>
+          <p>
+            {{user.description}}
+          </p>
+        </md-card-content> -->
+        <md-card-actions>
+          <!-- <button md-button (click)="selectCard(story)">更多</button> -->
+          <button md-button (click)="updateUser(user)">修改 </button>
+        </md-card-actions>
+  </md-card>
 
-    </md-input-container>
-  <BR><label for="password"></label>
-    <md-input-container>
-    <input mdInput type="password" #password class="form-control" id="password" placeholder="密码">
-    </md-input-container>
-  <BR><label for="nickname"></label>
-    <md-input-container>
-    <input mdInput type="text" #nickname class="form-control" id="nickname" placeholder="昵称">
-    </md-input-container>
+  <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="single">封面</label>
+                    <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="useruploader" />                                  
+                </div>            
+            </form>
+            <div *ngFor="let item of useruploader.queue">
+            <button type="button" class="btn btn-success btn-xs"
+                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <span class="glyphicon glyphicon-upload"></span> Upload
+                        </button>
+                        </div>
+        </div>
+
+  <md-card *ngIf="bay">
+    <div class="fabbtn">
+      <button md-fab md-fab-bottom><md-icon>add</md-icon></button>
+    </div>
+    <md-card-header>
+          <div md-card-avatar class="example-header-image" ></div>
+          <md-card-title>{{bay.name}}</md-card-title>
+          <md-card-subtitle>{{bay.id}} {{bay.creater}} {{bay.starttime}}</md-card-subtitle>
+    </md-card-header>
+  <img md-card-image src="{{bay.cover}}" [style.width]="'100%'">
+    <md-card-header>
+            <md-card-subtitle>{{bay.id}} {{bay.creater}} {{bay.updatetime}}</md-card-subtitle>
+    </md-card-header>
+  </md-card>
+  <button md-botton (click)="updateBay()"> 保存 </button>
+  <div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="single">封面</label>
+                    <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />                                  
+                </div>            
+            </form>
+        </div>
+        <div class="col-md-8">
+            Queue length: {{ uploader?.queue?.length }}
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td nowrap>{{ item.file.size/1024/1024 | number:'.2' }} MB</td>
+                    <td>
+                        <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td nowrap>
+                        <button type="button" class="btn btn-success btn-xs"
+                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <span class="glyphicon glyphicon-upload"></span> Upload
+                        </button>
+                        <button type="button" class="btn btn-warning btn-xs"
+                                (click)="item.cancel()" [disabled]="!item.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                        </button>
+                        <button type="button" class="btn btn-danger btn-xs"
+                                (click)="item.remove()">
+                            <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+                            
+          </div>
+      </div>
   </div>
-  <!--div class="form-group">
-    <label for="email"><i class="glyphicon glyphicon-globe"></i></label>
-    <input type="email" #email class="form-control" id="email" placeholder={{page.signup_placeholder2}}>
-  </div-->
-  <button md-raised-button type="submit" class="btn btn-default">提交</button>
-    <a [routerLink]="['/login']">登录</a>
-</form>
 </div>

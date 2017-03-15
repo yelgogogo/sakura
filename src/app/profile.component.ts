@@ -2,16 +2,24 @@ import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { HeroService } from './hero.service';
-import { User } from './hero';
+import { User,Bay } from './hero';
+import { FileUploader } from 'ng2-file-upload';
+import { NODEUPLOAD } from './mock-data';
 // import { contentHeaders } from '../common/headers';
 
 @Component({
-  selector: 'my-signup',
-  templateUrl: 'signup.component.html',
-  styleUrls: [ 'signup.component.css' ]
+  selector: 'my-profile',
+  templateUrl: 'profile.component.html',
+  styleUrls: [ 'profile.component.css' ]
 })
-export class SignupComponent implements OnInit{
+export class ProfileComponent implements OnInit{
   user:User;
+  bay:Bay;
+  error: any;
+
+
+  public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
+  public useruploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
   constructor(public router: Router, public http: Http, private heroService: HeroService) {
   }
@@ -19,32 +27,62 @@ export class SignupComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.user= new User();
+    this.getUser();
+
+    this.heroService.myBay(this.user)
+      .then(rep=>{
+        this.bay=rep;
+      })
+      .catch(error => this.error = error); 
+
+    this.uploader.onCompleteItem = (item, response, status, header) => {
+        if (status === 200) {      
+            let resobj = JSON.parse(response);
+            // element.filename=resobj.filename;
+            this.bay.cover=NODEUPLOAD+resobj.path;
+        }  
+      };
+
+    this.useruploader.onCompleteItem = (item, response, status, header) => {
+        if (status === 200) {      
+            let resobj = JSON.parse(response);
+            // element.filename=resobj.filename;
+            this.user.avatar=NODEUPLOAD+resobj.path;
+            this.user.avatar=this.user.avatar.replace(/\\/g,'/');
+        }  
+      };
   }
 
-  signup(event: any, user:string, password:string,nickname:string) {
-    event.preventDefault();
-    
-    this.user.name=user;
-    this.user.password=password;
-    this.user.nickname=nickname;
-    this.user.bayid=1;
-    
-    this.heroService.postUser(this.user)
-      .then(useri => 
-        {
-          this.user = useri;
-          console.log(useri);
-          // let name=this.user.name;
-          // let email=this.user.email;
-          // let body = JSON.stringify({name,email });
-          // localStorage.setItem('rapper_token', body);
-          this.router.navigate(['login']);
-        });
+  getUser():void{
+    // let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
+    // localStorage.setItem('sakura_user',body);
+    if(localStorage.getItem('sakura_user') ){
+      this.user=JSON.parse(localStorage.getItem('sakura_user'));
+    }
   }
 
-  login(event: any) {
-    event.preventDefault();
-    this.router.navigate(['login']);
+  updateUser():void{
+    let today= new  Date();
+    this.user.updatetime = today.toLocaleString();
+    this.heroService
+        .updateUser(this.user)
+        .then(user => {
+          this.user = user; 
+          // this.goBack();
+        })
+        .catch(error => this.error = error); 
   }
+
+  updateBay():void{
+    let today= new  Date();
+    this.bay.updatetime = today.toLocaleString();
+    this.heroService
+        .updateBay(this.bay)
+        .then(bay => {
+          this.bay = bay; 
+          // this.goBack();
+        })
+        .catch(error => this.error = error); 
+  }
+
 }

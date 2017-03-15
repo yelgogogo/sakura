@@ -54,12 +54,11 @@ export class StoryComponent implements OnInit {
     this.newcomment=new StoryComment();
     this.newcomment.owner=this.user.name;
     this.newcomment.role=this.user.role;
+    this.newcomment.avatar=this.user.avatar;
     this.newcomment.storyid=this.story.id;
   }
 
   getUser():void{
-    let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
-    localStorage.setItem('sakura_user',body);
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
       // this.story.owner=this.user.name;
@@ -69,12 +68,13 @@ export class StoryComponent implements OnInit {
   }
 
   saveComment(): void {
-    //console.log(this.regarray);
+    console.log(this.newcomment);
     let today= new  Date();
     this.newcomment.starttime = today.toLocaleString();
     this.heroService
         .saveComment(this.newcomment)
         .then(story => {
+          console.log(story);
           this.story = story; 
           this.newcomment=null;
           // this.goBack();

@@ -7,14 +7,14 @@
   </h5>
   </md-toolbar>
   <md-card class="cvimg">
-  <img md-card-image src="assets/img/mic.jpg" [style.width]="'100%'">
+  <img md-card-image src="{{bay.cover}}" [style.width]="'100%'">
   </md-card>
   <md-card>
   <md-tab-group>
     <md-tab label="故事" >
       <md-card class="work-card"  *ngFor="let story of bay.storys" [@selectCard]="story.flag" >
         <md-card-header>
-          <div md-card-avatar class="example-header-image" ></div>
+          <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + story.avatar + ')'"></div>
           <md-card-title>{{story.title}}</md-card-title>
           <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
         </md-card-header>
@@ -75,7 +75,7 @@
   </md-tab-group>
   </md-card>
   <div class="fabbtn">
-    <button md-fab md-fab-bottom-bottom><md-icon>add</md-icon></button>
+    <button md-fab md-fab-bottom><md-icon>add</md-icon></button>
   </div>
 </div>
 </md-sidenav-container>

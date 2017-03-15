@@ -1,6 +1,6 @@
 <div class="signup jumbotron center-block">
   <h1>注册</h1>
-  <form role="form" (submit)="signup($event, user.value, password.value, nickname.value)">
+  <form role="form" (submit)="signup($event, user.value, password.value, nickname.value,bayid.value)">
   <div class="form-group">
   <label for="user"></label>
     <md-input-container>
@@ -14,6 +14,10 @@
   <BR><label for="nickname"></label>
     <md-input-container>
     <input mdInput type="text" #nickname class="form-control" id="nickname" placeholder="昵称">
+    </md-input-container>
+  <BR><label for="bayid"></label>
+    <md-input-container>
+    <input mdInput type="number" #bayid class="form-control" id="bayid" placeholder="港口">
     </md-input-container>
   </div>
   <!--div class="form-group">

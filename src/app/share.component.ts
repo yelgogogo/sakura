@@ -48,6 +48,7 @@ export class ShareComponent implements OnInit {
       this.story.owner=this.user.name;
       this.story.bayid=this.user.bayid;
       this.story.role=this.user.nickname;
+      this.story.avatar=this.user.avatar;
       this.story.comments=[];
     }
   }

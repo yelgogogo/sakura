@@ -2,9 +2,13 @@ export class Bay{
 	id:number;
 	name:string;
 	cover:string;
+	createrid:number;
+	creater:string;
 	people:People[];
 	// skill:Skill[];
 	storys:Story[];
+	starttime:string;
+	updatetime:string;
 	// projectexps:ProjectExp[];
 }
 
@@ -28,6 +32,7 @@ export class Skill{
 export class Story{
 	flag:string;//add for animation
 	id:number;
+	avatar:string;
 	bayid:number;
 	title:string;
 	cover:string;
@@ -51,6 +56,7 @@ export class StoryComment{
 	role:string;
 	starttime:string;
 	comment:string;
+	avatar:string;
 }
 export class ProjectExp{
 	company:string;
@@ -66,6 +72,7 @@ export class ProjectExp{
 export class User {
   id: number;
   bayid:number;
+  avatar:string;
   role:string;
   name: string;
   nickname:string;
@@ -75,4 +82,6 @@ export class User {
   token:string;
   rights:number[];
   email:string;
+  starttime:string;
+  updatetime:string;
 }

@@ -6,7 +6,7 @@ import {ShareComponent} from './share.component';
 import  {StoryComponent} from  './story.component';
 import  {LoginComponent} from  './login.component';
 import  {SignupComponent} from  './signup.component';
-
+import  {ProfileComponent} from  './profile.component';
 
 
 const routes: Routes = [
@@ -22,6 +22,10 @@ const routes: Routes = [
   {
       path: 'signup',
       component: SignupComponent
+  },
+  {
+      path: 'profile',
+      component: ProfileComponent
   },
   {
     path: 'home',
@@ -43,4 +47,4 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routedComponents = [HomeComponent,SignupComponent,StoryComponent,LoginComponent,ShareComponent];
+export const routedComponents = [HomeComponent,ProfileComponent,SignupComponent,StoryComponent,LoginComponent,ShareComponent];

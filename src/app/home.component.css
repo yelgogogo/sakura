@@ -47,7 +47,7 @@
 }
 
 .example-header-image {
-  background-image: url('../assets/img/mic.jpg');
+/*  background-image: url('../assets/img/mic.jpg');*/
   background-size: cover;
   width: 40px;
   border-radius: 50%;

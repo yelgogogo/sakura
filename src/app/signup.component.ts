@@ -22,13 +22,14 @@ export class SignupComponent implements OnInit{
     this.user= new User();
   }
 
-  signup(event: any, user:string, password:string,nickname:string) {
+  signup(event: any, user:string, password:string,nickname:string,bayid:number) {
     event.preventDefault();
     
     this.user.name=user;
     this.user.password=password;
     this.user.nickname=nickname;
-    this.user.bayid=1;
+    this.user.bayid=bayid;
+    this.user.avatar='';
     
     this.heroService.postUser(this.user)
       .then(useri => 
