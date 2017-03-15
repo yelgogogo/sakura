@@ -1,0 +1,1 @@
+export const NODEUPLOAD:string='http://localhost:3200/';

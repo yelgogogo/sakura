@@ -1,0 +1,18 @@
+<div *ngIf="story">
+   <form >
+  	<md-input-container class="share-full-width">
+       <input mdInput placeholder="标题"  [(ngModel)]="story.title" name="title">
+  	</md-input-container>
+  	<md-input-container class="share-full-width">
+       <input mdInput placeholder="副标题"  [(ngModel)]="story.subtitle" name="subtitle">
+  	</md-input-container>
+  	   <md-input-container class="share-full-width">
+          <textarea mdInput placeholder="我的故事" [(ngModel)]="story.description" name="description">
+          	
+          </textarea>
+       </md-input-container>
+   </form>
+   <button md-botton (click)="goBack()"> 返回 </button>
+   <button md-botton (click)="save()"> 保存 </button>
+</div>
+

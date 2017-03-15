@@ -1,0 +1,108 @@
+<md-sidenav-container>
+<div *ngIf="bay">
+  
+  <md-toolbar color="primary" [style.width]="'100%'">
+  <h5>
+    {{bay.name}}
+  </h5>
+  </md-toolbar>
+  <md-card class="cvimg">
+  <img md-card-image src="assets/img/mic.jpg" [style.width]="'100%'">
+  </md-card>
+  <md-card>
+  <md-tab-group>
+    <md-tab label="故事" >
+      <md-card class="work-card"  *ngFor="let story of bay.storys" [@selectCard]="story.flag" >
+        <md-card-header>
+          <div md-card-avatar class="example-header-image" ></div>
+          <md-card-title>{{story.title}}</md-card-title>
+          <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
+        </md-card-header>
+        <img md-card-image class="work-img" src="{{story.cover}}">
+        <md-card-content>
+          <h5>{{story.subtitle}}</h5>
+          <p *ngIf="story.flag==='active'">
+            {{story.description}}
+          </p>
+        </md-card-content>
+        <md-card-actions>
+          <button md-button (click)="selectCard(story)">更多</button>
+          <button md-button (click)="gotoStory(story)">评论 </button>
+        </md-card-actions>
+      </md-card>
+    </md-tab>
+    <!-- <md-tab label="项目">
+      <md-card bays="work-card"  *ngFor="let projectexp of bay.projectexps">
+        <md-card-header>
+          <div md-card-avatar src="assets/img/mic.jpg"></div>
+          <md-card-title>{{projectexp.name}}</md-card-title>
+          <md-card-subtitle>{{projectexp.starttime}}-{{projectexp.endtime}} {{projectexp.company}}</md-card-subtitle>
+        </md-card-header>
+        <img md-card-image src="assets/img/mic.jpg">
+        <md-card-content>
+          <h6>{{projectexp.role}}</h6>
+          <p>
+            {{projectexp.description}}
+          </p>
+        </md-card-content>
+      </md-card>
+    </md-tab>
+    <md-tab label="技能">
+      <md-list>
+        <md-list-item *ngFor="let skill of bay.skill"
+        [@shrinkOut]="'in'"
+        [style.width]="'100%'">
+          <span>{{skill.language}}</span> 
+          <span bays="skills">
+          <span>{{skill.years}}年</span>
+            <md-progress-bar bays="skillbar"
+                [color]="accent"
+                [mode]="determinate"
+                [value]="skill.value" >
+            </md-progress-bar>
+          </span>
+          <md-card *ngIf="skill.state==='active'" bays="skillcard">
+            <md-list>
+              <md-card-header>{{skill.language}} 经验</md-card-header>
+              <md-list-item>2006-2010 in IBM</md-list-item>
+              <md-list-item>2010-Now in HP</md-list-item>
+            </md-list>  
+
+          </md-card>
+        </md-list-item>
+      </md-list>
+    </md-tab> -->
+  </md-tab-group>
+  </md-card>
+  <div class="fabbtn">
+    <button md-fab md-fab-bottom-bottom><md-icon>add</md-icon></button>
+  </div>
+</div>
+</md-sidenav-container>
+  <!-- <button  (click)="delete()">Clear</button>
+  <button  (click)="deleteim()">ClearIm</button>
+  <button  (click)="show()">Show</button>
+
+
+    <h3>Normal Buttons</h3>
+  <div bays="button-row">
+    <button md-button (click)="add()">Flat button</button>
+    <button md-raised-button>Raised button</button>
+    <button md-fab [@addAni]="addflag"><md-icon>check</md-icon></button>
+    <button md-mini-fab><md-icon>check</md-icon></button>
+  </div>
+
+  <md-button-toggle-group #group="mdButtonToggleGroup" vertical="true" >
+  <md-button-toggle value="left" (click)="selectType(goodtype)" >
+    <md-icon>format_align_left</md-icon>
+  </md-button-toggle>
+  <md-button-toggle value="center" (click)="selectType(goodtype)" >
+    <md-icon>format_align_center</md-icon>
+  </md-button-toggle>
+  <md-button-toggle value="right" (click)="selectType(goodtype)" [@heroState]="goodtype">
+    <md-icon>format_align_right</md-icon>
+  </md-button-toggle>
+  <md-button-toggle value="justify" disabled>
+    <md-icon>format_align_justify</md-icon>
+  </md-button-toggle>
+</md-button-toggle-group> -->
