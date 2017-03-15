@@ -1,18 +1,55 @@
 <div *ngIf="story">
-   <form >
-  	<md-input-container class="share-full-width">
+  <md-card class="cvimg">
+    <img md-card-image src="{{story.cover}}" [style.width]="'100%'">
+  </md-card>
+    <md-card  >
+        <md-card-header>
+          <div md-card-avatar class="example-header-image" ></div>
+          <md-card-title>{{story.title}}</md-card-title>
+          <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+          <br>
+          <h5>{{story.subtitle}}</h5>
+          <p>
+            {{story.description}}
+          </p>
+        </md-card-content>
+        <md-card-actions>
+          <!-- <button md-button (click)="selectCard(story)">更多</button> -->
+          <button md-button (click)="addComment(story)">评论 </button>
+        </md-card-actions>
+      </md-card>
+  <div *ngIf="newcomment">
+    <form >
+<!--    <md-input-container class="share-full-width">
        <input mdInput placeholder="标题"  [(ngModel)]="story.title" name="title">
-  	</md-input-container>
-  	<md-input-container class="share-full-width">
+    </md-input-container>
+    <md-input-container class="share-full-width">
        <input mdInput placeholder="副标题"  [(ngModel)]="story.subtitle" name="subtitle">
-  	</md-input-container>
-  	   <md-input-container class="share-full-width">
-          <textarea mdInput placeholder="我的故事" [(ngModel)]="story.description" name="description">
-          	
+    </md-input-container> -->
+       <md-input-container class="share-full-width">
+          <textarea mdInput placeholder="评论" [(ngModel)]="newcomment.comment" name="newcomment">
+            
           </textarea>
        </md-input-container>
    </form>
-   <button md-botton (click)="goBack()"> 返回 </button>
-   <button md-botton (click)="save()"> 保存 </button>
+<!--    <button md-botton (click)="goBack()"> 返回 </button> -->
+   <button md-botton (click)="saveComment()"> 保存 </button>
+  </div>
+  
+  <md-card *ngFor="let cmt of story.comments">
+    <md-card-header>
+          <div md-card-avatar class="example-header-image" ></div>
+          <md-card-title>{{cmt.title}}</md-card-title>
+          <md-card-subtitle>{{cmt.role}} {{cmt.starttime}}</md-card-subtitle>
+        </md-card-header>
+    <md-card-content>
+          <p>
+            {{cmt.comment}}
+          </p>
+        </md-card-content>
+  </md-card>
+
 </div>
 

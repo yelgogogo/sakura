@@ -41,13 +41,14 @@ export class ShareComponent implements OnInit {
   }
 
   getUser():void{
-    let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
-    localStorage.setItem('sakura_user',body);
+    // let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
+    // localStorage.setItem('sakura_user',body);
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
       this.story.owner=this.user.name;
       this.story.bayid=this.user.bayid;
-      this.story.role=this.user.role;
+      this.story.role=this.user.nickname;
+      this.story.comments=[];
     }
   }
 

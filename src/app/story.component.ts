@@ -1,7 +1,7 @@
 import { Component,   OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Story,User } from './hero';
+import { Story,User,StoryComment } from './hero';
 import { HeroService } from './hero.service';
 // import { FileUploader } from 'ng2-file-upload';
 import { NODEUPLOAD } from './mock-data';
@@ -17,7 +17,7 @@ export class StoryComponent implements OnInit {
   story:Story;
   user:User;
   error: any;
-
+  newcomment:StoryComment;
   // public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
   constructor(
@@ -50,6 +50,13 @@ export class StoryComponent implements OnInit {
 
   }
 
+  addComment():void{
+    this.newcomment=new StoryComment();
+    this.newcomment.owner=this.user.name;
+    this.newcomment.role=this.user.role;
+    this.newcomment.storyid=this.story.id;
+  }
+
   getUser():void{
     let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
     localStorage.setItem('sakura_user',body);
@@ -61,15 +68,16 @@ export class StoryComponent implements OnInit {
     }
   }
 
-  save(): void {
+  saveComment(): void {
     //console.log(this.regarray);
     let today= new  Date();
-    this.story.starttime = today.toLocaleString();
+    this.newcomment.starttime = today.toLocaleString();
     this.heroService
-        .saveStory(this.story)
+        .saveComment(this.newcomment)
         .then(story => {
           this.story = story; 
-          this.goBack();
+          this.newcomment=null;
+          // this.goBack();
         })
         .catch(error => this.error = error); 
   }

@@ -3,7 +3,7 @@ import {  Input,  trigger,  state,  style,  transition,  animate} from '@angular
 
 import {HeroService} from './hero.service';
 import { Http } from '@angular/http';
-import  {Bay,Story} from './hero';
+import  {Bay,Story,User} from './hero';
 import { Router } from '@angular/router';
 
 @Component({
@@ -57,6 +57,7 @@ import { Router } from '@angular/router';
 
 export class HomeComponent implements OnInit{
   bay:Bay;
+  user:User;
   title = '黄劲松的简历';
   // heroes:Hero[]=[];
   addflag:string='';
@@ -67,14 +68,25 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.heroService.getClas()
+    this.getUser();
+    this.heroService.getBay(this.user)
       .then(rep=>{
+        rep.storys.sort(( a: any, b: any ) => b.id-a.id);
+        console.log(rep.storys);
         this.bay=rep;
         this.bay.storys.forEach(s=>s.flag='inactive');
       })
       .catch(error => this.error = error); 
 
 
+  }
+
+  getUser():void{
+    // let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
+    // localStorage.setItem('sakura_user',body);
+    if(localStorage.getItem('sakura_user') ){
+      this.user=JSON.parse(localStorage.getItem('sakura_user'));
+    }
   }
 
   selectCard(story:Story):void{

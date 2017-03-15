@@ -4,7 +4,7 @@ import { Headers, Http, Response,URLSearchParams } from '@angular/http';
 // import { InMemoryDataService } from './in-memory-data.service';
 import 'rxjs/add/operator/toPromise';
 
-import { Bay,Story} from './hero';
+import { Bay,Story,StoryComment,User} from './hero';
 
 
 @Injectable()
@@ -15,16 +15,22 @@ export class HeroService {
   //private workspacesUrl = HOST+'workspaces';  // URL to web api Workspaces
 	private bayUrl = this.HOST +'bay';
   private storyUrl = this.HOST +'story';
+  private commentUrl = this.HOST +'comment';
   private storybyidUrl = this.HOST+'storybyid';
+  private userbynameUrl = this.HOST+'userbyname';
+  private usersUrl = this.HOST+'users';
 
-	getClas(): Promise<Bay> {
-  return this.http
-  	.get(this.bayUrl)
-  	.toPromise()
-  	.then(response => 
-  		{ console.log(response.json().data);
-  			return response.json().data[0] as Bay;})
-  	.catch(this.handleError);
+	getBay(user:User): Promise<Bay> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('user', JSON.stringify({bayid:user.bayid}));
+
+    return this.http
+      .get(this.bayUrl,{ search: params })
+    	.toPromise()
+    	.then(response => 
+    		{ console.log(response.json().data);
+    			return response.json().data as Bay;})
+    	.catch(this.handleError);
 	}
 
 	private handleError(error: any): Promise<any> {
@@ -38,6 +44,7 @@ export class HeroService {
     // }
     return this.postStory(story);
   }
+
   // Add new Story
   private postStory(story: Story): Promise<Story> {
     let headers = new Headers({
@@ -51,6 +58,25 @@ export class HeroService {
       .catch(this.handleError);
   }
 
+  saveComment(comment: StoryComment): Promise<Story> {
+    // if (story.id) {
+    //   return this.putStory(story);
+    // }
+    return this.postComment(comment);
+  }
+  // Add new Comment
+  private postComment(comment: StoryComment): Promise<Story> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    console.log(comment);
+    return this.http
+      .post(this.commentUrl, JSON.stringify(comment), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data)
+      .catch(this.handleError);
+  }
+
   getStoryById(inid: number): Promise<Story> {
     let params: URLSearchParams = new URLSearchParams();
     params.set('id', JSON.stringify({id:inid}));
@@ -58,7 +84,31 @@ export class HeroService {
     return this.http
       .get(this.storybyidUrl,{ search: params })
       .toPromise()
-      .then(response => response.json() as Story)
+      .then(response => response.json().data as Story)
+      .catch(this.handleError);
+  }
+
+  postUser(user: User): Promise<User> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(this.usersUrl, JSON.stringify(user), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data)
+      .catch(this.handleError);
+      
+  }
+
+  getUserByName(user: User): Promise<User> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('user', JSON.stringify(user));
+
+    return this.http
+      .get(this.userbynameUrl,{ search: params })
+      .toPromise()
+      .then(response => response.json().data as User)
       .catch(this.handleError);
   }
 

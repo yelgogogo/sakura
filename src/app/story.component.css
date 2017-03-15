@@ -1,33 +1,58 @@
-label {
-  display: inline-block;
-  width: 3em;
-  margin: .5em 0;
-  color: #607D8B;
-  color: rgb(0,120,215);
-  font-weight: bold;
+.cvimg {
+    height: 100px;
+    overflow: hidden;
 }
-input {
-  height: 2em;
-  font-size: 1em;
-  padding-left: .4em;
+
+.skillbar{
+  width: 100%;
+  right: 0;
+  position: absolute;
 }
-button {
-  margin-top: 20px;
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer; cursor: hand;
+
+.skills{
+  width: 60%;
+  right: 0;
+  position: absolute;
 }
-button:hover {
-  background-color: #cfd8dc;
+
+.skillcard{
+  
+  left:  5%;
+  position: absolute;
 }
-button:disabled {
-  background-color: #eee;
-  color: #ccc;
-  cursor: auto;
+
+.work-card{
+  margin: 10px 0;
+/*  height: 400px;*/
 }
+
+
+[md-card-image]{
+
+/*  max-width: 350px;*/
+  overflow: hidden;
+/*  background-size: 100% auto; 
+  width: 100%;*/
+}
+
+.fabbtn{
+   float: right;
+   position: absolute;
+    right: 30px;
+    top: 180px;
+}
+
+.work-img{
+  max-height: 150px;
+}
+
+.example-header-image {
+  background-image: url('../assets/img/mic.jpg');
+  background-size: cover;
+  width: 40px;
+  border-radius: 50%;
+}
+
 .form-control{
   display: initial;
     width: initial;
