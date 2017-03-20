@@ -1,7 +1,7 @@
 
 <div class="login" [class.app-dark-theme]="nightmode" [style.height]="innerHeight+'px'">
   <md-toolbar color="primary" >
-  <h3>登录</h3>
+  <h3> 登录</h3><button md-button (click)="signup()" [style.float]="right">注册</button>
   </md-toolbar>
 
   <md-sidenav-container [style.height]="'inherit'" [style.font-size]="'large'">
@@ -11,7 +11,7 @@
   <label for="userin"></label>
     <md-input-container [style.width]="'80%'">
     
-    <input mdInput type="text" #userin class="form-control" id="userin" placeholder="用户名" value={{user.username}}>
+    <input mdInput type="text" #userin class="form-control" id="userin" placeholder="用户名" value={{user.name}}>
 
     </md-input-container>
   <BR><label for="password"></label>

@@ -85,4 +85,8 @@ export class ProfileComponent implements OnInit{
         .catch(error => this.error = error); 
   }
 
+  goBack(): void {
+     window.history.back(); 
+  }
+  
 }

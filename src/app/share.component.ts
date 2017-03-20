@@ -46,6 +46,7 @@ export class ShareComponent implements OnInit {
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
       this.story.owner=this.user.name;
+      this.story.ownerid=this.user.id;
       this.story.bayid=this.user.bayid;
       this.story.role=this.user.nickname;
       this.story.avatar=this.user.avatar;
@@ -55,6 +56,12 @@ export class ShareComponent implements OnInit {
 
   save(): void {
     //console.log(this.regarray);
+    if (this.story.description.length > 60){
+      this.story.subtitle=this.story.description.substr(0,60)+'...';
+    }else{
+      this.story.subtitle=this.story.description.substr(0,60);   
+    }
+    
     let today= new  Date();
     this.story.starttime = today.toLocaleString();
     this.heroService

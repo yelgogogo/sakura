@@ -5,9 +5,10 @@
   <h5>
     {{bay.name}}
   </h5>
+  <button md-button (click)="gotoProfile()" class="rightbtn">个人</button>
   </md-toolbar>
   <md-card class="cvimg">
-  <img md-card-image src="{{bay.cover}}" [style.width]="'100%'">
+  <img md-card-image src="{{bay.cover}}" [style.width]="'110%'">
   </md-card>
   <md-card>
   <md-tab-group>
@@ -19,15 +20,16 @@
           <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
         </md-card-header>
         <img md-card-image class="work-img" src="{{story.cover}}">
-        <md-card-content>
-          <h5>{{story.subtitle}}</h5>
+        <md-card-content style="white-space: pre-line;">
+          <h5 *ngIf="story.flag!=='active'">{{story.subtitle}}</h5>
           <p *ngIf="story.flag==='active'">
             {{story.description}}
           </p>
         </md-card-content>
         <md-card-actions>
-          <button md-button (click)="selectCard(story)">更多</button>
+          <button *ngIf="story.subtitle!==story.description" md-button (click)="selectCard(story)">更多</button>
           <button md-button (click)="gotoStory(story)">评论 </button>
+          <button *ngIf="story.ownerid===user.id" md-button (click)="deleteStory(story,user)">删除 </button>
         </md-card-actions>
       </md-card>
     </md-tab>
@@ -75,7 +77,7 @@
   </md-tab-group>
   </md-card>
   <div class="fabbtn">
-    <button md-fab md-fab-bottom><md-icon>add</md-icon></button>
+    <button md-fab md-fab-bottom (click)="gotoShare()"><md-icon>add</md-icon></button>
   </div>
 </div>
 </md-sidenav-container>

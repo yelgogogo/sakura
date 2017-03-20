@@ -1,4 +1,4 @@
-<div *ngIf="story">
+<div *ngIf="story" >
   <md-card class="cvimg">
     <img md-card-image src="{{story.cover}}" [style.width]="'100%'">
   </md-card>
@@ -8,7 +8,7 @@
           <md-card-title>{{story.title}}</md-card-title>
           <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
         </md-card-header>
-        <md-card-content>
+        <md-card-content style="white-space: pre-line;">
           <br>
           <h5>{{story.subtitle}}</h5>
           <p>
@@ -16,8 +16,9 @@
           </p>
         </md-card-content>
         <md-card-actions>
-          <!-- <button md-button (click)="selectCard(story)">更多</button> -->
+<!--           <button md-button (click)="deleteStory(story.id,user)">更多</button> -->
           <button md-button (click)="addComment(story)">评论 </button>
+          <button *ngIf="story.ownerid===user.id" md-button (click)="deleteStory(story,user)">删除 </button>
         </md-card-actions>
       </md-card>
   <div *ngIf="newcomment">
@@ -35,7 +36,8 @@
        </md-input-container>
    </form>
 <!--    <button md-botton (click)="goBack()"> 返回 </button> -->
-   <button md-botton (click)="saveComment()"> 保存 </button>
+   <button md-botton (click)="saveComment()">保存</button>
+
   </div>
   
   <md-card *ngFor="let cmt of story.comments">
@@ -52,4 +54,6 @@
   </md-card>
 
 </div>
-
+<md-toolbar class="topbar">
+  <h3><button md-icon-button (click)="goBack()"><md-icon>keyboard_arrow_left</md-icon></button></h3>
+</md-toolbar>

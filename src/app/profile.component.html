@@ -1,5 +1,5 @@
 <div class="signup jumbotron center-block" *ngIf="user">
-  <h3>个人</h3>
+  <h3><button md-icon-button (click)="goBack()"><md-icon>keyboard_arrow_left</md-icon></button>个人</h3>
   <md-card  >
         <md-card-header>
           <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + user.avatar + ')'"></div>

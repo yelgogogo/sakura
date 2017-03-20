@@ -34,7 +34,9 @@ export class StoryComponent implements OnInit {
       if (params['id'] !== undefined) {
         let id = +params['id'];
         this.heroService.getStoryById(id)
-            .then(story => this.story = story);
+            .then(story => {this.story = story;
+              // this.story.description=this.story.description.replace(/\n/g,'<br />');
+            });
       } else {
       }
     });
@@ -53,7 +55,8 @@ export class StoryComponent implements OnInit {
   addComment():void{
     this.newcomment=new StoryComment();
     this.newcomment.owner=this.user.name;
-    this.newcomment.role=this.user.role;
+    this.newcomment.ownerid=this.user.id;
+    this.newcomment.role=this.user.nickname;
     this.newcomment.avatar=this.user.avatar;
     this.newcomment.storyid=this.story.id;
   }
@@ -61,14 +64,24 @@ export class StoryComponent implements OnInit {
   getUser():void{
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
-      // this.story.owner=this.user.name;
-      // this.story.bayid=this.user.bayid;
-      // this.story.role=this.user.role;
     }
   }
 
+  deleteStory(story:Story,user:User):void{
+    let today= new  Date();
+    this.story.updatetime = today.toLocaleString();
+    this.heroService
+        .deleteStory(story,user)
+        .then(story => {
+          // console.log(story);
+          this.story = story;
+          this.goBack();
+        })
+        .catch(error => this.error = error); 
+  }
+
   saveComment(): void {
-    console.log(this.newcomment);
+    // console.log(this.newcomment);
     let today= new  Date();
     this.newcomment.starttime = today.toLocaleString();
     this.heroService
@@ -76,6 +89,7 @@ export class StoryComponent implements OnInit {
         .then(story => {
           console.log(story);
           this.story = story; 
+
           this.newcomment=null;
           // this.goBack();
         })

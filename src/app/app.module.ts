@@ -11,12 +11,13 @@ import { MaterialModule } from '@angular/material';
 
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+import {FileUploadModule} from "ng2-file-upload/file-upload/file-upload.module";
 import './rxjs-extensions';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FileSelectDirective,
+    // FileSelectDirective,
     routedComponents
   ],
   imports: [
@@ -24,6 +25,7 @@ import './rxjs-extensions';
     FormsModule,
     AppRoutingModule,
     MaterialModule,
+    FileUploadModule,
     // InMemoryWebApiModule.forRoot(InMemoryDataService,{delay:600}),
     HttpModule
   ],

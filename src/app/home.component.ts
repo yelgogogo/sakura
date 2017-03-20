@@ -101,4 +101,23 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['/story', story.id]);
   }
 
+  gotoShare(): void {
+    this.router.navigate(['/share']);
+  }
+
+  gotoProfile(): void {
+    this.router.navigate(['/profile']);
+  }
+
+  deleteStory(story:Story,user:User):void{
+    let today= new  Date();
+    // story.updatetime = today.toLocaleString();
+    this.heroService
+        .deleteStory(story,user)
+        .then(repstory => {
+          // console.log(story);
+          this.bay.storys=this.bay.storys.filter(f=>f.id!==story.id)
+        })
+        .catch(error => this.error = error); 
+  }
 }

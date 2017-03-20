@@ -13,12 +13,17 @@ export class Bay{
 }
 
 export class People{
-	name : string;
-	gender: string;
-	age:number;
-	cellphone:string;
-	mail:string;
-	home:string;
+  name : string;
+  gender: string;
+  age:number;
+  cellphone:string;
+  mail:string;
+  home:string;
+  id: number;
+  bayid:number;
+  avatar:string;
+  role:string;
+  nickname:string;
 }
 
 export class Skill{
@@ -32,16 +37,20 @@ export class Skill{
 export class Story{
 	flag:string;//add for animation
 	id:number;
+	ownerid:number;
+	owner:string;
 	avatar:string;
 	bayid:number;
 	title:string;
 	cover:string;
 	subtitle:string;
-	owner:string;
+	
+
 	place:string;
 	company:string;
 	role:string;
 	starttime:string;
+	updatetime:string;
 	endtime:string;
 	period:string;
 	description:string;
@@ -53,6 +62,7 @@ export class StoryComment{
 	id:number;
 	title:string;
 	owner:string;
+	ownerid:number;
 	role:string;
 	starttime:string;
 	comment:string;

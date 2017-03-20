@@ -12,7 +12,7 @@ import  {ProfileComponent} from  './profile.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   {
