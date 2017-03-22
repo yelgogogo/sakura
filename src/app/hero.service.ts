@@ -60,6 +60,21 @@ export class HeroService {
     return this.postStory(story);
   }
 
+
+  // new Bay 
+  newBay(bay: Bay): Promise<Bay> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    console.log(bay);
+    // let updatebayurl = `${this.bayUrl}/${bay.id}`;
+    return this.http
+      .post(this.bayUrl, JSON.stringify(bay), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data as Bay)
+      .catch(this.handleError);
+  }
+
   // update Bay with cover and name
   updateBay(bay: Bay): Promise<Bay> {
     let headers = new Headers({

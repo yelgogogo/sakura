@@ -5,24 +5,16 @@
           <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + user.avatar + ')'"></div>
           <md-card-title>{{user.nickname}}</md-card-title>
           <md-card-subtitle>{{user.role}} {{user.name}}</md-card-subtitle>
+          <md-input-container>
+            <input mdInput type="text" #bayidin [(ngModel)]="user.invitekey" placeholder="邀请码">
+          </md-input-container>
+          <md-chip *ngIf="user.on_err && user.err_msg.invitekey_err" color="warn" selected="true">{{user.err_msg.invitekey_err}}</md-chip>
         </md-card-header>
-<!--         <md-card-content>
-          <br>
-          <h5>{{user.subtitle}}</h5>
-          <p>
-            {{user.description}}
-          </p>
-        </md-card-content> -->
-        <md-card-actions>
-          <!-- <button md-button (click)="selectCard(story)">更多</button> -->
-          <button md-button (click)="updateUser(user)">修改 </button>
-        </md-card-actions>
-  </md-card>
-
-  <div class="col-md-4">
+        <md-card-content>
+          <div class="col-md-4">
             <form>
                 <div class="form-group">
-                    <label for="single">封面</label>
+                    <label for="single">头像</label>
                     <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="useruploader" />                                  
                 </div>            
             </form>
@@ -30,80 +22,84 @@
             <button type="button" class="btn btn-success btn-xs"
                                 (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
                             <span class="glyphicon glyphicon-upload"></span> Upload
-                        </button>
+                        </button><span *ngIf="item.isSuccess">上传成功</span>
                         </div>
         </div>
+        </md-card-content>
+        <md-card-actions>
+          <!-- <button md-button (click)="selectCard(story)">更多</button> -->
+          <button md-button (click)="updateUser(user)">修改 </button>
+        </md-card-actions>
+  </md-card>
 
-  <md-card *ngIf="bay">
-    <div class="fabbtn">
-      <button md-fab md-fab-bottom><md-icon>add</md-icon></button>
+  <md-card *ngIf="newbay">
+    <md-card-header>新的港口</md-card-header>
+    <md-input-container>
+      <input mdInput type="text" #newbayname [(ngModel)]="newbay.name" placeholder="名称">
+    </md-input-container>
+    <md-input-container >
+      <input mdInput type="text" #newbayinv [(ngModel)]="newbay.invitekey" placeholder="邀请码">
+    </md-input-container>
+
+    <div class="col-md-4">
+    <form>
+        <div class="form-group">
+            <label for="single">封面</label>
+            <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="newuploader" />                                  
+        </div>            
+    </form>
+    <div *ngFor="let item of newuploader.queue">
+    <button type="button" class="btn btn-success btn-xs"
+                        (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="glyphicon glyphicon-upload"></span> Upload
+    </button>
+    <span *ngIf="item.isSuccess">上传成功</span>
     </div>
+  </div>
+  <md-card-actions>
+          <!-- <button md-button (click)="selectCard(story)">更多</button> -->
+          <button md-button (click)="addBay(newbay)">修改 </button>
+          <md-chip *ngIf="newbay.on_err && newbay.err_msg" color="warn" selected="true">{{newbay.err_msg}}</md-chip>
+        </md-card-actions>
+  </md-card>
+
+  
+
+    <md-card *ngIf="bay">
+    
     <md-card-header>
           <div md-card-avatar class="example-header-image" ></div>
           <md-card-title>{{bay.name}}</md-card-title>
           <md-card-subtitle>{{bay.id}} {{bay.creater}} {{bay.starttime}}</md-card-subtitle>
     </md-card-header>
-  <img md-card-image src="{{bay.cover}}" [style.width]="'100%'">
+    <img md-card-image src="{{bay.cover}}" [style.width]="'100%'">
     <md-card-header>
-            <md-card-subtitle>{{bay.id}} {{bay.creater}} {{bay.updatetime}}</md-card-subtitle>
+            <md-card-subtitle>{{bay.id}} {{bay.creater}} </md-card-subtitle>
     </md-card-header>
-  </md-card>
-  <button md-botton (click)="updateBay()"> 保存 </button>
-  <div class="container">
-    <div class="row">
-        <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="single">封面</label>
-                    <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />                                  
-                </div>            
-            </form>
-        </div>
-        <div class="col-md-8">
-            Queue length: {{ uploader?.queue?.length }}
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Size</th>
-                    <th>Progress</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of uploader.queue">
-                    <td nowrap>{{ item.file.size/1024/1024 | number:'.2' }} MB</td>
-                    <td>
-                        <div class="progress" style="margin-bottom: 0;">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                    </td>
-                    <td nowrap>
-                        <button type="button" class="btn btn-success btn-xs"
-                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                            <span class="glyphicon glyphicon-upload"></span> Upload
-                        </button>
-                        <button type="button" class="btn btn-warning btn-xs"
-                                (click)="item.cancel()" [disabled]="!item.isUploading">
-                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs"
-                                (click)="item.remove()">
-                            <span class="glyphicon glyphicon-trash"></span> Remove
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-                            
-          </div>
+    <md-input-container *ngIf="user.id===bay.createrid">
+      <input mdInput type="text" #bayinv [(ngModel)]="bay.invitekey" placeholder="邀请码">
+    </md-input-container>
+    <button md-botton (click)="updateBay()"> 保存 </button>
+    <div class="col-md-4">
+      <form>
+          <div class="form-group">
+              <label for="single">封面</label>
+              <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />                                  
+          </div>            
+      </form>
+      <div *ngFor="let item of uploader.queue">
+      <button type="button" class="btn btn-success btn-xs"
+                          (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                      <span class="glyphicon glyphicon-upload"></span> Upload
+      </button>
+      <span *ngIf="item.isSuccess">上传成功</span>
       </div>
+    </div>
+  </md-card>
+
+  <div class="fabbtn">
+      <button md-fab md-fab-bottom (click)="add()"><md-icon>add</md-icon></button>
   </div>
 </div>
+<md-chip-list>
+</md-chip-list>

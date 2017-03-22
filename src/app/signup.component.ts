@@ -22,15 +22,14 @@ export class SignupComponent implements OnInit{
     this.user= new User();
   }
 
-  signup(event: any, user:string, password:string,nickname:string,bayid:number) {
+  signup(event: any, user:string, password:string,nickname:string,bayid:string) {
     event.preventDefault();
     
     this.user.name=user;
     this.user.password=password;
     this.user.nickname=nickname;
-    this.user.bayid=bayid;
+    this.user.invitekey=bayid;
     this.user.avatar='';
-    
     this.heroService.postUser(this.user)
       .then(useri => 
         {
@@ -40,7 +39,12 @@ export class SignupComponent implements OnInit{
           // let email=this.user.email;
           // let body = JSON.stringify({name,email });
           // localStorage.setItem('rapper_token', body);
-          this.router.navigate(['login']);
+          if(useri.on_err){
+            console.log(useri.on_err);
+          }else{
+            this.router.navigate(['login']);
+          }
+          
         });
   }
 

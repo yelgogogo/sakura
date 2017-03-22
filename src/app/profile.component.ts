@@ -15,11 +15,13 @@ import { NODEUPLOAD } from './mock-data';
 export class ProfileComponent implements OnInit{
   user:User;
   bay:Bay;
+  newbay:Bay;
   error: any;
 
 
   public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
   public useruploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
+  public newuploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
   constructor(public router: Router, public http: Http, private heroService: HeroService) {
   }
@@ -41,7 +43,7 @@ export class ProfileComponent implements OnInit{
             // element.filename=resobj.filename;
             this.bay.cover=NODEUPLOAD+resobj.path;
         }  
-      };
+    };
 
     this.useruploader.onCompleteItem = (item, response, status, header) => {
         if (status === 200) {      
@@ -50,7 +52,16 @@ export class ProfileComponent implements OnInit{
             this.user.avatar=NODEUPLOAD+resobj.path;
             this.user.avatar=this.user.avatar.replace(/\\/g,'/');
         }  
-      };
+     };
+
+    this.newuploader.onCompleteItem = (item, response, status, header) => {
+      if (status === 200) {      
+          let resobj = JSON.parse(response);
+          // element.filename=resobj.filename;
+          this.newbay.cover=NODEUPLOAD+resobj.path;
+       
+      }  
+    };
   }
 
   getUser():void{
@@ -63,11 +74,51 @@ export class ProfileComponent implements OnInit{
 
   updateUser():void{
     let today= new  Date();
+    console.log(this.user);
     this.user.updatetime = today.toLocaleString();
+    // this.user.bayid=Number(this.user.bayid);
+    
     this.heroService
-        .updateUser(this.user)
-        .then(user => {
-          this.user = user; 
+      .updateUser(this.user)
+      .then(user => {
+        this.user = user; 
+        if(user.on_err){
+
+        }else{
+          let body = JSON.stringify(this.user);
+          localStorage.setItem('sakura_user', body);
+
+          this.heroService.myBay(this.user)
+            .then(rep=>{
+              this.bay=rep;
+              console.log(rep);
+            })
+            .catch(error => this.error = error); 
+          console.log(user);
+
+        }
+        
+        // this.goBack();
+      })
+      .catch(error => this.error = error); 
+  }
+
+  add():void{
+    this.newbay=new Bay();
+    this.newbay.creater = this.user.nickname;
+    this.newbay.createrid = this.user.id;
+  }
+
+  addBay(newbay:Bay):void{
+    let today= new  Date();
+    newbay.starttime = today.toLocaleString();
+    newbay.updatetime = today.toLocaleString();
+    newbay.people=[];
+    newbay.storys=[];
+    this.heroService
+        .newBay(this.newbay)
+        .then(bay => {
+          this.newbay = bay; 
           // this.goBack();
         })
         .catch(error => this.error = error); 

@@ -120,4 +120,18 @@ export class HomeComponent implements OnInit{
         })
         .catch(error => this.error = error); 
   }
+
+  changeMode(select:boolean):void{
+    if (select){
+      this.user.nightmode=false;
+    }else{
+      this.user.nightmode=true;
+    }
+  }
+
+  logOut(event: any) {
+    event.preventDefault();
+    this.router.navigate(['login']);
+  }
+
 }

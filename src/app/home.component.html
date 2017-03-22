@@ -1,12 +1,51 @@
 <md-sidenav-container>
-<div *ngIf="bay">
-  
-  <md-toolbar color="primary" [style.width]="'100%'">
-  <h5>
+<md-toolbar class="hometop" color="primary" >
+  <h5 *ngIf="bay">
     {{bay.name}}
   </h5>
-  <button md-button (click)="gotoProfile()" class="rightbtn">个人</button>
-  </md-toolbar>
+  <span [style.width]="'100%'" >
+  <nav >
+    <button [style.float]="'right'" md-icon-button [mdMenuTriggerFor]="menu">
+    <md-icon>more_horiz</md-icon>
+  </button>
+  <md-menu #menu="mdMenu">
+<!--   <a *ngIf="!user.token" routerLink="/login" routerLinkActive="active">
+    <button md-menu-item>
+      <md-icon>account_circle</md-icon>
+      <span>登录</span>
+    </button>
+    </a> -->
+<!--     <a *ngIf="login" routerLink="/workarea" routerLinkActive="active">
+    <button md-menu-item >
+      <md-icon>business</md-icon>
+      <span>{{page.app_a2}}</span>
+    </button>
+    </a> -->
+    <a  routerLink="/profile" routerLinkActive="active">
+    <button md-menu-item>
+      <md-icon>content_paste</md-icon>
+      <span>个人</span>
+    </button>
+    </a>
+    <button md-menu-item (click)="changeMode(user.nightmode)">
+      <md-icon *ngIf="!user.nightmode">brightness_4</md-icon>
+      <span *ngIf="!user.nightmode">夜晚模式</span>
+      <md-icon *ngIf="user.nightmode">brightness_5</md-icon>
+      <span *ngIf="user.nightmode">日间模式</span>
+    </button>
+    <button md-menu-item (click)="logOut($event)">
+      <md-icon >reply_all</md-icon>
+      <span>退出</span>
+    </button>
+  </md-menu>
+</nav>
+</span>
+<!--   <button md-button (click)="gotoProfile()" class="rightbtn"> 个人 </button> -->
+
+</md-toolbar>
+<div *ngIf="bay">
+  
+  
   <md-card class="cvimg">
   <img md-card-image src="{{bay.cover}}" [style.width]="'110%'">
   </md-card>
@@ -80,6 +119,7 @@
     <button md-fab md-fab-bottom (click)="gotoShare()"><md-icon>add</md-icon></button>
   </div>
 </div>
+
 </md-sidenav-container>
   <!-- <button  (click)="delete()">Clear</button>
   <button  (click)="deleteim()">ClearIm</button>

@@ -1,9 +1,11 @@
 export class Bay{
+	on_err:boolean;
 	id:number;
 	name:string;
 	cover:string;
 	createrid:number;
 	creater:string;
+	invitekey:string;
 	people:People[];
 	// skill:Skill[];
 	storys:Story[];
@@ -44,8 +46,6 @@ export class Story{
 	title:string;
 	cover:string;
 	subtitle:string;
-	
-
 	place:string;
 	company:string;
 	role:string;
@@ -80,6 +80,9 @@ export class ProjectExp{
 }
 
 export class User {
+  on_err:boolean;
+  invitekey:string;
+  nightmode:boolean;//add for nightmode 
   id: number;
   bayid:number;
   avatar:string;
