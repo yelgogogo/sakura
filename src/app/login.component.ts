@@ -21,11 +21,11 @@ export class LoginComponent implements OnInit,OnDestroy{
   subscription: Subscription;
 
   constructor(public router: Router, public http: Http, private heroService: HeroService, private missionService: MissionService) {
-    this.subscription = missionService.modeChanged$.subscribe(
-      mission => {
-        // this.page=LOGINPAGE.find(page=>page.id == mission);
-        this.nightmode=mission;
-    });
+    // this.subscription = missionService.modeChanged$.subscribe(
+    //   mission => {
+    //     // this.page=LOGINPAGE.find(page=>page.id == mission);
+    //     this.nightmode=mission;
+    // });
 
   }
 
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit,OnDestroy{
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
 }

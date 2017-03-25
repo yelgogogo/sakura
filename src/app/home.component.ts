@@ -5,6 +5,7 @@ import {HeroService} from './hero.service';
 import { Http } from '@angular/http';
 import  {Bay,Story,User} from './hero';
 import { Router } from '@angular/router';
+import { MissionService }     from './mission.service';
 
 @Component({
   selector: 'app-home',
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit{
   goodtype='inactive';
   error: any;
 
-  constructor( public router: Router,public http: Http, private heroService: HeroService) {
+  constructor( public router: Router,public http: Http, private heroService: HeroService,private missionService: MissionService) {
   }
 
   ngOnInit(): void {
@@ -127,6 +128,9 @@ export class HomeComponent implements OnInit{
     }else{
       this.user.nightmode=true;
     }
+    this.missionService.changeMode(this.user.nightmode);
+    let body = JSON.stringify(this.user);
+    localStorage.setItem('sakura_user', body);
   }
 
   logOut(event: any) {

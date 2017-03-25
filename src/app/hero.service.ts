@@ -16,6 +16,7 @@ export class HeroService {
   //private workspacesUrl = HOST+'workspaces';  // URL to web api Workspaces
 	private bayUrl = HOST +'bay';
   private mybayUrl = HOST +'mybay';
+  private joinbayUrl = HOST +'joinbay';
   private storyUrl = HOST +'story';
   private commentUrl = HOST +'comment';
   private storybyidUrl = HOST+'storybyid';
@@ -41,6 +42,19 @@ export class HeroService {
 
     return this.http
       .get(this.mybayUrl,{ search: params })
+      .toPromise()
+      .then(response => 
+        { console.log(response.json().data);
+          return response.json().data as Bay;})
+      .catch(this.handleError);
+  }
+
+  joinBay(user:User): Promise<Bay> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('user', JSON.stringify({id:user.id,bayid:user.bayid}));
+
+    return this.http
+      .get(this.joinbayUrl,{ search: params })
       .toPromise()
       .then(response => 
         { console.log(response.json().data);

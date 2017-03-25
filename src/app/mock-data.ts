@@ -3,8 +3,8 @@ import { environment } from '../environments/environment';
 var uploadstr=  'http://localhost:3200/';
 var hoststr=  'http://localhost:3200/';
 if (environment.production) {
-    uploadstr=  'http://starstech.iego.cn:3200/';
-	hoststr=  'http://starstech.iego.cn:3200/';
+    uploadstr=  'https://www.starstech.tech:3201/';
+	hoststr=  'https://www.starstech.tech:3201/';
 }
 
 export const NODEUPLOAD:string=uploadstr;

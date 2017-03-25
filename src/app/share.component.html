@@ -1,4 +1,5 @@
 <div *ngIf="story">
+  <md-card>
    <form >
   	<md-input-container class="share-full-width">
        <input mdInput placeholder="标题"  [(ngModel)]="story.title" name="title">
@@ -26,4 +27,5 @@
    </form>
    <button md-botton (click)="goBack()"> 返回 </button>
    <button md-botton (click)="save()"> 保存 </button>
+  </md-card>
 </div>

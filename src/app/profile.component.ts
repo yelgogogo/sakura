@@ -15,6 +15,7 @@ import { NODEUPLOAD } from './mock-data';
 export class ProfileComponent implements OnInit{
   user:User;
   bay:Bay;
+  joinbay:Bay;
   newbay:Bay;
   error: any;
 
@@ -30,6 +31,12 @@ export class ProfileComponent implements OnInit{
   ngOnInit(): void {
 
     this.getUser();
+
+    this.heroService.joinBay(this.user)
+      .then(rep=>{
+        this.joinbay=rep;
+      })
+      .catch(error => this.error = error);
 
     this.heroService.myBay(this.user)
       .then(rep=>{
@@ -88,9 +95,9 @@ export class ProfileComponent implements OnInit{
           let body = JSON.stringify(this.user);
           localStorage.setItem('sakura_user', body);
 
-          this.heroService.myBay(this.user)
+          this.heroService.joinBay(this.user)
             .then(rep=>{
-              this.bay=rep;
+              this.joinbay=rep;
               console.log(rep);
             })
             .catch(error => this.error = error); 
