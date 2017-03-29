@@ -1,31 +1,53 @@
 <div *ngIf="story">
   <md-card>
+   <img *ngIf="story.coverthumbnail" [src]="story.coverthumbnail.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+   {{story.cover}}
    <form >
   	<md-input-container class="share-full-width">
        <input mdInput placeholder="标题"  [(ngModel)]="story.title" name="title">
   	</md-input-container>
   	   <md-input-container class="share-full-width">
-          <textarea mdInput rows="10" placeholder="我的故事" [(ngModel)]="story.description" name="description">
+          <textarea mdInput rows="10" placeholder="我的故事" [(ngModel)]="story.description" [ngModelOptions]="{standalone: true}">
           	
           </textarea>
        </md-input-container>
 
+    <div *ngFor="let content of story.subcontents">
+      <div align="center"><img *ngIf="content.thumbnail" [src]="content.thumbnail.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">{{content.illustration}}</div>
+      <md-input-container class="share-full-width">
+          <textarea mdInput rows="5" placeholder="故事继续" [(ngModel)]="content.content" [ngModelOptions]="{standalone: true}">
+            
+          </textarea>
+       </md-input-container>
+    </div>
+  </form>
+    <md-card-actions>
+      <button md-botton (click)="addSubcontent()"> 插图 </button>
+      <button md-botton (click)="goBack()"> 返回 </button>
+      <button md-botton (click)="save()"> 保存 </button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card>
               <div class="form-group">
-                  <label for="single">封面</label>
-                  <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" />                                  
+                  <label *ngIf="!addsub">封面</label>
+                  <label *ngIf="addsub">插图</label>
+                  <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" >
+
+     <!--              <div hidden="hidden">
+                      <div ><img-cropper #profileCropper [image]="data" [settings]="cropperSettings"></img-cropper></div><br>
+                      <img [src]="data.image" >
+                  </div> -->
+                                                   
               </div>            
 
           <div *ngFor="let item of uploader.queue">
           <button type="button" class="btn btn-success btn-xs"
                               (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                          <span class="glyphicon glyphicon-upload"></span> Upload
+                          <span class="glyphicon glyphicon-upload"></span> 上传
           </button>
+          <span *ngIf="item.isUploading">上传中...</span>
           <span *ngIf="item.isSuccess">上传成功</span>
           </div>
-                          
- 
-   </form>
-   <button md-botton (click)="goBack()"> 返回 </button>
-   <button md-botton (click)="save()"> 保存 </button>
-  </md-card>
+    </md-card>
 </div>

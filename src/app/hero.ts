@@ -45,6 +45,7 @@ export class Story{
 	bayid:number;
 	title:string;
 	cover:string;
+	coverthumbnail:string;//add for img inshare
 	subtitle:string;
 	place:string;
 	company:string;
@@ -54,7 +55,15 @@ export class Story{
 	endtime:string;
 	period:string;
 	description:string;
+	subcontents:SubContent[];
+	
 	comments:StoryComment[];
+}
+
+export class SubContent{
+	illustration:string;//add for img inshare
+	thumbnail:any;
+	content:string;
 }
 
 export class StoryComment{
@@ -81,6 +90,7 @@ export class ProjectExp{
 
 export class User {
   on_err:boolean;
+  err_msg:any;
   invitekey:string;
   nightmode:boolean;//add for nightmode 
   id: number;

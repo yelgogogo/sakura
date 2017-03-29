@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
+import { RecycleComponent } from './recycle.component';
 import {ShareComponent} from './share.component';
 import  {StoryComponent} from  './story.component';
 import  {LoginComponent} from  './login.component';
@@ -28,8 +29,12 @@ const routes: Routes = [
       component: ProfileComponent
   },
   {
-    path: 'home',
+    path: 'home/:id',
     component: HomeComponent
+  },
+  {
+    path: 'recycle',
+    component: RecycleComponent
   },
   {
     path: 'story/:id',
@@ -47,4 +52,4 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routedComponents = [HomeComponent,ProfileComponent,SignupComponent,StoryComponent,LoginComponent,ShareComponent];
+export const routedComponents = [HomeComponent,RecycleComponent,ProfileComponent,SignupComponent,StoryComponent,LoginComponent,ShareComponent];

@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit,OnDestroy{
             localStorage.setItem('sakura_user', body);
             // //console.log('login');
             // //console.log(this.user);
-            this.router.navigate(['home']);
+            this.router.navigate(['/home', this.user.bayid]);
           }
         });
   }

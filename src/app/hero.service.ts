@@ -15,6 +15,7 @@ export class HeroService {
 	constructor(private http: Http) { }
   //private workspacesUrl = HOST+'workspaces';  // URL to web api Workspaces
 	private bayUrl = HOST +'bay';
+  private delbayUrl = HOST +'delbay';
   private mybayUrl = HOST +'mybay';
   private joinbayUrl = HOST +'joinbay';
   private storyUrl = HOST +'story';
@@ -35,6 +36,19 @@ export class HeroService {
     			return response.json().data as Bay;})
     	.catch(this.handleError);
 	}
+
+  getDelBay(user:User): Promise<Bay> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('user', JSON.stringify({bayid:user.bayid}));
+
+    return this.http
+      .get(this.delbayUrl,{ search: params })
+      .toPromise()
+      .then(response => 
+        { console.log(response.json().data);
+          return response.json().data as Bay;})
+      .catch(this.handleError);
+  }
 
   myBay(user:User): Promise<Bay> {
     let params: URLSearchParams = new URLSearchParams();
@@ -68,9 +82,14 @@ export class HeroService {
 	}
 
   saveStory(story: Story): Promise<Story> {
-    // if (story.id) {
-    //   return this.putStory(story);
-    // }
+    if(story.flag){delete story.flag};
+    if(story.coverthumbnail){delete story.coverthumbnail};
+    if(story.subcontents){
+      story.subcontents.forEach(s=>delete s.thumbnail)
+    };
+    if (story.id) {
+      return this.putStory(story);
+    }
     return this.postStory(story);
   }
 
@@ -137,7 +156,20 @@ export class HeroService {
     return this.http
       .post(this.storyUrl, JSON.stringify(story), { headers: headers })
       .toPromise()
-      .then(res => res.json().data)
+      .then(res => res.json().data as Story)
+      .catch(this.handleError);
+  }
+
+// Update Story
+  private putStory(story: Story): Promise<Story> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    console.log(story);
+    return this.http
+      .put(this.storyUrl, JSON.stringify(story), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data as Story)
       .catch(this.handleError);
   }
 

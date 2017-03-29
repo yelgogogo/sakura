@@ -1,18 +1,16 @@
 import { Component,OnInit } from '@angular/core';
-import {  Input } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { trigger,  state,  style,  transition,  animate } from '@angular/animations'
+import {  Input,  trigger,  state,  style,  transition,  animate} from '@angular/core';
 
 import {HeroService} from './hero.service';
 import { Http } from '@angular/http';
 import  {Bay,Story,User} from './hero';
 import { Router } from '@angular/router';
-import { MissionService }     from './mission.service';
+// import { MissionService }     from './mission.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  selector: 'app-recycle',
+  templateUrl: './recycle.component.html',
+  styleUrls: ['./recycle.component.css'],
   animations: [
     trigger('selectCard', [
       state('inactive', style({
@@ -58,7 +56,7 @@ import { MissionService }     from './mission.service';
 
 
 
-export class HomeComponent implements OnInit{
+export class RecycleComponent implements OnInit{
   bay:Bay;
   user:User;
   title = '黄劲松的简历';
@@ -66,25 +64,15 @@ export class HomeComponent implements OnInit{
   addflag:string='';
   goodtype='inactive';
   error: any;
+  restorestory:Story;
+  editstory=false;
 
-  constructor( public router: Router,public http: Http,private route: ActivatedRoute, private heroService: HeroService,private missionService: MissionService) {
+  constructor( public router: Router,public http: Http, private heroService: HeroService) {
   }
 
   ngOnInit(): void {
-
     this.getUser();
-
-    this.route.params.forEach((params: Params) => {
-
-      if (params['id'] !== undefined) {
-        let id = +params['id'];
-        this.user.bayid=id;
-      } else {
-      }
-    });
-
-    
-    this.heroService.getBay(this.user)
+    this.heroService.getDelBay(this.user)
       .then(rep=>{
         rep.storys.sort(( a: any, b: any ) => b.id-a.id);
         console.log(rep.storys);
@@ -101,8 +89,6 @@ export class HomeComponent implements OnInit{
     // localStorage.setItem('sakura_user',body);
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
-    }else{
-      this.user= new User();
     }
   }
 
@@ -118,14 +104,6 @@ export class HomeComponent implements OnInit{
     this.router.navigate(['/story', story.id]);
   }
 
-  gotoShare(): void {
-    this.router.navigate(['/share']);
-  }
-
-  gotoProfile(): void {
-    this.router.navigate(['/profile']);
-  }
-
   deleteStory(story:Story,user:User):void{
     let today= new  Date();
     // story.updatetime = today.toLocaleString();
@@ -138,20 +116,32 @@ export class HomeComponent implements OnInit{
         .catch(error => this.error = error); 
   }
 
-  changeMode(select:boolean):void{
-    if (select){
-      this.user.nightmode=false;
-    }else{
-      this.user.nightmode=true;
-    }
-    this.missionService.changeMode(this.user.nightmode);
-    let body = JSON.stringify(this.user);
-    localStorage.setItem('sakura_user', body);
+  restoreStory(story:Story,user:User):void{
+    this.restorestory=story;
+    this.editstory=true;
+    // let today= new  Date();
+    // this.heroService
+    //     .restoreStory(story,user)
+    //     .then(repstory => {
+    //       // console.log(story);
+    //       this.bay.storys=this.bay.storys.filter(f=>f.id!==story.id)
+    //     })
+    //     .catch(error => this.error = error); 
   }
 
-  logOut(event: any) {
-    event.preventDefault();
-    this.router.navigate(['login']);
+  goBack(): void {
+     window.history.back(); 
   }
+
+
+  editStory(): void {
+    this.editstory=true;
+  }
+
+  close(savedHero: Story): void {
+    this.editstory = false;
+    // if (savedHero) { this.getHeroes(); }
+  }
+
 
 }

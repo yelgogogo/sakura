@@ -27,6 +27,12 @@
       <span>个人</span>
     </button>
     </a>
+    <a  routerLink="/recycle" routerLinkActive="active">
+    <button md-menu-item>
+      <md-icon>autorenew</md-icon>
+      <span>回收站</span>
+    </button>
+    </a>
     <button md-menu-item (click)="changeMode(user.nightmode)">
       <md-icon *ngIf="!user.nightmode">brightness_4</md-icon>
       <span *ngIf="!user.nightmode">夜晚模式</span>
@@ -66,9 +72,14 @@
           </p>
         </md-card-content>
         <md-card-actions>
-          <button *ngIf="story.subtitle!==story.description" md-button (click)="selectCard(story)">更多</button>
-          <button md-button (click)="gotoStory(story)">评论 </button>
           <button *ngIf="story.ownerid===user.id" md-button (click)="deleteStory(story,user)">删除 </button>
+          <button *ngIf="story.subtitle!==story.description" md-button (click)="selectCard(story)">
+            <span *ngIf="story.flag==='inactive'">展开</span>
+            <span *ngIf="story.flag!=='inactive'">收起</span>
+          </button>
+          <ng-template #folding>Loading...</ng-template>
+          <button md-button (click)="gotoStory(story)">评论 </button>
+          
         </md-card-actions>
       </md-card>
     </md-tab>

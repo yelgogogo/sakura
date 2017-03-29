@@ -18,6 +18,7 @@ export class StoryComponent implements OnInit {
   user:User;
   error: any;
   newcomment:StoryComment;
+  editstory=false;
   // public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
   constructor(
@@ -35,6 +36,7 @@ export class StoryComponent implements OnInit {
         let id = +params['id'];
         this.heroService.getStoryById(id)
             .then(story => {this.story = story;
+              console.log(story);
               // this.story.description=this.story.description.replace(/\n/g,'<br />');
             });
       } else {
@@ -78,6 +80,16 @@ export class StoryComponent implements OnInit {
           this.goBack();
         })
         .catch(error => this.error = error); 
+  }
+
+  editStory(): void {
+
+    this.editstory=true;
+  }
+
+  close(savedHero: Story): void {
+    this.editstory = false;
+    // if (savedHero) { this.getHeroes(); }
   }
 
   saveComment(): void {

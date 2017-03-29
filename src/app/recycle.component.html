@@ -1,0 +1,57 @@
+      <h3><button md-icon-button (click)="goBack()"><md-icon>keyboard_arrow_left</md-icon></button>回收站</h3>
+      <div *ngIf="editstory">
+        <my-share [story]="restorestory" (close)="close($event)"></my-share>
+      </div>
+    <div *ngIf="bay">
+      <md-card class="work-card"  *ngFor="let story of bay.storys" [@selectCard]="story.flag" >
+        <md-card-header>
+          <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + story.avatar + ')'"></div>
+          <md-card-title>{{story.title}}</md-card-title>
+          <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
+        </md-card-header>
+        <img md-card-image class="work-img" src="{{story.cover}}">
+        <md-card-content style="white-space: pre-line;">
+          <h5 *ngIf="story.flag!=='active'">{{story.subtitle}}</h5>
+          <p *ngIf="story.flag==='active'">
+            {{story.description}}
+          </p>
+        </md-card-content>
+        <md-card-actions>
+          <button *ngIf="story.ownerid===user.id" md-button (click)="deleteStory(story,user)">删除 </button>
+          <button *ngIf="story.ownerid===user.id" md-button (click)="restoreStory(story,user)">恢复 </button>
+
+          
+        </md-card-actions>
+
+      </md-card>
+    </div>
+    
+
+
+  <!-- <button  (click)="delete()">Clear</button>
+  <button  (click)="deleteim()">ClearIm</button>
+  <button  (click)="show()">Show</button>
+
+
+    <h3>Normal Buttons</h3>
+  <div bays="button-row">
+    <button md-button (click)="add()">Flat button</button>
+    <button md-raised-button>Raised button</button>
+    <button md-fab [@addAni]="addflag"><md-icon>check</md-icon></button>
+    <button md-mini-fab><md-icon>check</md-icon></button>
+  </div>
+
+  <md-button-toggle-group #group="mdButtonToggleGroup" vertical="true" >
+  <md-button-toggle value="left" (click)="selectType(goodtype)" >
+    <md-icon>format_align_left</md-icon>
+  </md-button-toggle>
+  <md-button-toggle value="center" (click)="selectType(goodtype)" >
+    <md-icon>format_align_center</md-icon>
+  </md-button-toggle>
+  <md-button-toggle value="right" (click)="selectType(goodtype)" [@heroState]="goodtype">
+    <md-icon>format_align_right</md-icon>
+  </md-button-toggle>
+  <md-button-toggle value="justify" disabled>
+    <md-icon>format_align_justify</md-icon>
+  </md-button-toggle>
+</md-button-toggle-group> -->

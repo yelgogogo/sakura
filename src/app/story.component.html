@@ -1,4 +1,7 @@
 <div *ngIf="story" >
+  <md-toolbar class="blkbar" >
+    <span>>sss</span>
+  </md-toolbar>
   <md-card class="cvimg">
     <img md-card-image src="{{story.cover}}" [style.width]="'100%'">
   </md-card>
@@ -9,18 +12,30 @@
           <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
         </md-card-header>
         <md-card-content style="white-space: pre-line;">
-          <br>
-          <h5>{{story.subtitle}}</h5>
+        <!--   <br>
+          <h5>{{story.subtitle}}</h5> -->
           <p>
             {{story.description}}
           </p>
+          <div *ngFor="let cont of story.subcontents">
+            <img md-card-image src="{{cont.illustration}}" [style.width]="'100%'" [style.margin]="'0 0'">
+            <p>
+              {{cont.content}}
+            </p>
+          </div>
         </md-card-content>
         <md-card-actions>
 <!--           <button md-button (click)="deleteStory(story.id,user)">更多</button> -->
-          <button md-button (click)="addComment(story)">评论 </button>
           <button *ngIf="story.ownerid===user.id" md-button (click)="deleteStory(story,user)">删除 </button>
+          <button *ngIf="story.ownerid===user.id" md-button (click)="editStory(story,user)">编辑 </button>
+          <button md-button (click)="addComment(story)">评论 </button>
+          
         </md-card-actions>
       </md-card>
+  <div *ngIf="editstory">
+    <my-share [story]="story" (close)="close($event)"></my-share>
+  </div>
+
   <div *ngIf="newcomment">
     <form >
 <!--    <md-input-container class="share-full-width">
@@ -54,6 +69,6 @@
   </md-card>
 
 </div>
-<md-toolbar class="topbar">
+<md-toolbar class="topbar" color="primary">
   <h3><button md-icon-button (click)="goBack()"><md-icon>keyboard_arrow_left</md-icon></button></h3>
 </md-toolbar>
