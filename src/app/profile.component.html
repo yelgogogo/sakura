@@ -26,8 +26,10 @@
                         </div>
         </div>
         </md-card-content>
+        <img md-card-image src="{{user.moneyimg}}" [style.width]="'100%'">
         <md-card-actions>
           <!-- <button md-button (click)="selectCard(story)">更多</button> -->
+          <button md-button (click)="addMoneyImg()">收赏 </button>
           <button md-button (click)="updateUser(user)">修改 </button>
         </md-card-actions>
   </md-card>

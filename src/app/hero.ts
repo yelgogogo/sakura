@@ -26,6 +26,7 @@ export class People{
   avatar:string;
   role:string;
   nickname:string;
+  badge:string;
 }
 
 export class Skill{
@@ -41,6 +42,7 @@ export class Story{
 	id:number;
 	ownerid:number;
 	owner:string;
+	moneyimg:string;
 	avatar:string;
 	bayid:number;
 	title:string;
@@ -56,7 +58,9 @@ export class Story{
 	period:string;
 	description:string;
 	subcontents:SubContent[];
-	
+	likes:People[];
+	gifts:People[];
+	visitors:string[];
 	comments:StoryComment[];
 }
 
@@ -96,6 +100,7 @@ export class User {
   id: number;
   bayid:number;
   avatar:string;
+  moneyimg:string;
   role:string;
   name: string;
   nickname:string;

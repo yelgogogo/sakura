@@ -5,7 +5,7 @@ import { trigger,  state,  style,  transition,  animate } from '@angular/animati
 
 import {HeroService} from './hero.service';
 import { Http } from '@angular/http';
-import  {Bay,Story,User} from './hero';
+import  {Bay,Story,User,People} from './hero';
 import { Router } from '@angular/router';
 import { MissionService }     from './mission.service';
 
@@ -59,6 +59,10 @@ import { MissionService }     from './mission.service';
 
 
 export class HomeComponent implements OnInit{
+  // @HostListener('scroll', ['$event']) private onScroll($event:Event):void {
+  //   console.log($event.srcElement.scrollLeft, $event.srcElement.scrollTop);
+  // };
+
   bay:Bay;
   user:User;
   title = '黄劲松的简历';
@@ -66,11 +70,18 @@ export class HomeComponent implements OnInit{
   addflag:string='';
   goodtype='inactive';
   error: any;
+  innerHeight: number;
+  goldHeight: number;
+  innerWidth: number;
+
 
   constructor( public router: Router,public http: Http,private route: ActivatedRoute, private heroService: HeroService,private missionService: MissionService) {
   }
 
   ngOnInit(): void {
+    this.innerWidth=window.screen.width;
+    this.goldHeight=Math.floor(this.innerWidth/16*9);
+    this.innerHeight=window.screen.height;
 
     this.getUser();
 
@@ -103,6 +114,9 @@ export class HomeComponent implements OnInit{
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
     }else{
       this.user= new User();
+      this.user.id=0;
+      this.user.nickname="访客";
+      this.user.avatar="https://www.starstech.tech:3201/uploads/defaultuser.jpg"
     }
   }
 
@@ -149,9 +163,49 @@ export class HomeComponent implements OnInit{
     localStorage.setItem('sakura_user', body);
   }
 
-  logOut(event: any) {
+  logOut(event: any) :void{
     event.preventDefault();
     this.router.navigate(['login']);
   }
 
+  onScroll(event: any) :void{
+    console.log(event);
+    event.preventDefault();
+    // this.router.navigate(['login']);
+  }
+
+  likeDone(user:User,story:Story):boolean{
+    if (!story.likes){story.likes=[]};
+    let pushcheck=story.likes.find(function(f){return f.id===user.id});
+    let rtn = false;
+    if (pushcheck){
+      rtn=true;
+    }
+    return rtn;
+  }
+
+  like(story:Story):void{
+    let people = new People();
+    people.id=this.user.id;
+    people.nickname=this.user.nickname;
+    people.avatar=this.user.avatar;
+    if (!story.likes){story.likes=[]};
+    let pushcheck=story.likes.find(f=> f.id===people.id );
+    if (!pushcheck){
+      let savestory=new Story();
+      savestory.id=story.id;
+      savestory.likes=[people];
+      this.heroService
+        .pushLike(savestory)
+        .then(sty => {
+          story = sty; 
+        })
+        .catch(error => this.error = error);
+    }
+    
+  }
+
+  doSwipe(direction: string) {
+            alert(direction);
+        }
 }

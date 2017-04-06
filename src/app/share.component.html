@@ -29,17 +29,20 @@
   </md-card>
 
   <md-card>
-              <div class="form-group">
-                  <label *ngIf="!addsub">封面</label>
-                  <label *ngIf="addsub">插图</label>
-                  <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" >
+    <div class="form-group">
+      <label *ngIf="!addsub">封面</label>
+      <label *ngIf="addsub">插图</label>
+      <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" >
 
-     <!--              <div hidden="hidden">
-                      <div ><img-cropper #profileCropper [image]="data" [settings]="cropperSettings"></img-cropper></div><br>
-                      <img [src]="data.image" >
-                  </div> -->
-                                                   
-              </div>            
+      <div hidden="hidden">
+        <div >
+          <img-cropper #profileCropper [image]="data" [settings]="cropperSettings"></img-cropper>
+        </div><br>
+        
+      </div>
+      <img [src]="data.image" [width]="160" [height]="90">
+                                         
+    </div>            
 
           <div *ngFor="let item of uploader.queue">
           <button type="button" class="btn btn-success btn-xs"

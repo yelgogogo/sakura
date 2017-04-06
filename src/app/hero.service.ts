@@ -23,6 +23,7 @@ export class HeroService {
   private storybyidUrl = HOST+'storybyid';
   private userbynameUrl = HOST+'userbyname';
   private usersUrl = HOST+'users';
+  private likeUrl = HOST+'like';
 
 	getBay(user:User): Promise<Bay> {
     let params: URLSearchParams = new URLSearchParams();
@@ -168,6 +169,19 @@ export class HeroService {
     console.log(story);
     return this.http
       .put(this.storyUrl, JSON.stringify(story), { headers: headers })
+      .toPromise()
+      .then(res => res.json().data as Story)
+      .catch(this.handleError);
+  }
+
+  // Update Story
+  pushLike(story: Story): Promise<Story> {
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    console.log(story);
+    return this.http
+      .put(this.likeUrl, JSON.stringify(story), { headers: headers })
       .toPromise()
       .then(res => res.json().data as Story)
       .catch(this.handleError);

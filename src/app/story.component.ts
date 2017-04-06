@@ -1,7 +1,7 @@
 import { Component,   OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Story,User,StoryComment } from './hero';
+import { Story,User,StoryComment,People } from './hero';
 import { HeroService } from './hero.service';
 // import { FileUploader } from 'ng2-file-upload';
 import { NODEUPLOAD } from './mock-data';
@@ -19,6 +19,7 @@ export class StoryComponent implements OnInit {
   error: any;
   newcomment:StoryComment;
   editstory=false;
+  addgift=false;
   // public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
   constructor(
@@ -66,6 +67,11 @@ export class StoryComponent implements OnInit {
   getUser():void{
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
+    }else{
+      this.user= new User();
+      this.user.id=0;
+      this.user.nickname="访客";
+      this.user.avatar="https://www.starstech.tech:3201/uploads/defaultuser.jpg"
     }
   }
 
@@ -80,6 +86,37 @@ export class StoryComponent implements OnInit {
           this.goBack();
         })
         .catch(error => this.error = error); 
+  }
+
+  cancelGift(): void {
+    this.addgift=false;
+  }
+
+  doneGift(story:Story): void {
+    this.addgift=false;
+    let people = new People();
+    people.id=this.user.id;
+    people.nickname=this.user.nickname;
+    people.avatar=this.user.avatar;
+    if (!story.gifts){story.gifts=[]};
+    let pushcheck=story.gifts.find(function(f){return f.id===people.id});
+    if (!pushcheck){
+      story.gifts.push(people);
+    }
+    let savestory=new Story();
+    savestory.id=story.id;
+    savestory.gifts=story.gifts;
+    this.heroService
+        .saveStory(savestory)
+        .then(sty => {
+          story = sty; 
+        })
+        .catch(error => this.error = error);
+  }
+
+  addGift(): void {
+    console.log(this.story);
+    this.addgift=true;
   }
 
   editStory(): void {
@@ -106,6 +143,37 @@ export class StoryComponent implements OnInit {
           // this.goBack();
         })
         .catch(error => this.error = error); 
+  }
+
+  likeDone(user:User,story:Story):boolean{
+    if (!story.likes){story.likes=[]};
+    let pushcheck=story.likes.find(function(f){return f.id===user.id});
+    let rtn = false;
+    if (pushcheck){
+      rtn=true;
+    }
+    return rtn;
+  }
+
+  like(story:Story):void{
+    let people = new People();
+    people.id=this.user.id;
+    people.nickname=this.user.nickname;
+    people.avatar=this.user.avatar;
+    if (!story.likes){story.likes=[]};
+    let pushcheck=story.likes.find(function(f){return f.id===people.id});
+    if (!pushcheck){
+      let savestory=new Story();
+      savestory.id=story.id;
+      savestory.likes=story.likes;
+      this.heroService
+        .pushLike(savestory)
+        .then(sty => {
+          story = sty; 
+        })
+        .catch(error => this.error = error);
+    }
+    
   }
 
   goBack(): void {

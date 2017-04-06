@@ -42,9 +42,9 @@
     top: 180px;
 }
 
-.work-img{
+/*.work-img{
 	max-height: 150px;
-}
+}*/
 
 .example-header-image {
 /*  background-image: url('../assets/img/mic.jpg');*/
@@ -59,7 +59,11 @@
 }
 
 .hometop{
-	width:100%;
-/*	position: absolute;
-	top:0px;*/
+	position: fixed;
+	top:0px;
+}
+
+.vistright{
+  position: absolute;
+  right: 10px;
 }

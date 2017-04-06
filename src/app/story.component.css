@@ -66,6 +66,7 @@
   background-size: cover;
   width: 40px;
   border-radius: 50%;
+  height: 40px;
 }
 
 .form-control{
@@ -75,4 +76,29 @@
 
 .share-full-width{
   width: 100%;
+}
+
+/*.example-header-image {
+  background-size: cover;
+  width: 40px;
+  border-radius: 50%;
+}*/
+/*.avaflex{
+  display: flex;
+  flex-flow: row wrap;
+}*/
+.avaflex{
+  display: flex;
+  flex-flow: row wrap;
+  /*width: 100%;*/
+  height:auto;
+}
+
+md-card-actions [md-button]{
+  margin: 0;
+}
+
+.vistright{
+  position: absolute;
+  right: 10px;
 }

@@ -14,7 +14,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import {FileUploadModule} from "ng2-file-upload/file-upload/file-upload.module";
 // import { ImageUploadModule } from 'ng2-imageupload';
 //import {ImageCropperComponent} from 'ng2-img-cropper';
-//import {ImageCropperModule} from 'ng2-img-cropper';
+import {ImageCropperModule} from 'ng2-img-cropper';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import './rxjs-extensions';
 
@@ -22,9 +22,9 @@ import './rxjs-extensions';
   declarations: [
     AppComponent,
     
-    
+    //ImageCropperComponent,
     routedComponents
-   // ImageCropperComponent
+   
   ],
   imports: [
 
@@ -34,7 +34,7 @@ import './rxjs-extensions';
     AppRoutingModule,
     MaterialModule,
     FileUploadModule,
-    //ImageCropperModule ,
+    ImageCropperModule ,
     // InMemoryWebApiModule.forRoot(InMemoryDataService,{delay:600}),
     HttpModule
   ],

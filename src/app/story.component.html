@@ -1,6 +1,6 @@
 <div *ngIf="story" >
   <md-toolbar class="blkbar" >
-    <span>>sss</span>
+    <span>  </span>
   </md-toolbar>
   <md-card class="cvimg">
     <img md-card-image src="{{story.cover}}" [style.width]="'100%'">
@@ -10,6 +10,12 @@
           <div md-card-avatar class="example-header-image" [style.background-image]="'url(' + story.avatar + ')'" ></div>
           <md-card-title>{{story.title}}</md-card-title>
           <md-card-subtitle>{{story.role}} {{story.starttime}}</md-card-subtitle>
+          <button *ngIf="story.visitors" md-icon-button class="vistright" [disabled]="true">
+            <md-icon >visibility</md-icon><span>{{story.visitors.length}}</span>
+          </button>
+  <!--         <span *ngIf="story.visitors" class="vistright">
+            <md-icon  color="primary">visibility</md-icon>{{story.visitors.length}}
+          </span> -->
         </md-card-header>
         <md-card-content style="white-space: pre-line;">
         <!--   <br>
@@ -24,13 +30,92 @@
             </p>
           </div>
         </md-card-content>
-        <md-card-actions>
+        <md-card-actions [style.text-align]="'right'">
 <!--           <button md-button (click)="deleteStory(story.id,user)">更多</button> -->
           <button *ngIf="story.ownerid===user.id" md-button (click)="deleteStory(story,user)">删除 </button>
           <button *ngIf="story.ownerid===user.id" md-button (click)="editStory(story,user)">编辑 </button>
-          <button md-button (click)="addComment(story)">评论 </button>
+          <button md-button (click)="addComment(story)" color="primary"><md-icon >comment</md-icon>评论 
+          </button>
+          <button *ngIf="story.ownerid!==user.id" md-button (click)="addGift()" >
+            <md-icon color="primary">attach_money</md-icon>打赏
+          </button>
+          <button  md-icon-button (click)="like(story)" [disabled]="likeDone(user,story)">
+            <md-icon *ngIf="!likeDone(user,story)" color="primary">favorite_border</md-icon>
+            <md-icon *ngIf="likeDone(user,story)" color="primary">favorite</md-icon>
+            <span *ngIf="story.likes">{{story.likes.length}}</span>
+          </button>
           
         </md-card-actions>
+        <div *ngIf="addgift">
+          <button md-button (click)="doneGift(story)">已打赏 </button>
+          <button md-button (click)="cancelGift()">取消 </button>
+          <img  md-card-image src="{{story.moneyimg}}" [style.width]="'100%'">
+        </div>
+      </md-card>
+      <md-card *ngIf="story.gifts" >
+      他们打赏了作者
+      <md-card-header class="avaflex">
+          <div  *ngFor="let gift of story.gifts" md-card-avatar class="example-header-image" [style.background-image]="'url(' + gift.avatar + ')'" ></div>
+       </md-card-header>
+      </md-card>
+      <md-card *ngIf="story.likes" >
+      <!-- <md-list>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+        <md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item><md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item><md-list-item *ngFor="let like of story.likes">
+          <img md-list-avatar src="{{like.avatar}}" alt="...">
+          {{like.nickname}}
+        </md-list-item>
+
+      </md-list> -->
+      他们觉得很赞
+      <md-card-header class="avaflex">
+          <div  *ngFor="let like of story.likes" md-card-avatar class="example-header-image" [style.background-image]="'url(' + like.avatar + ')'" ></div>
+       </md-card-header>
       </md-card>
   <div *ngIf="editstory">
     <my-share [story]="story" (close)="close($event)"></my-share>

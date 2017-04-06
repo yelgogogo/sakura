@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit{
   joinbay:Bay;
   newbay:Bay;
   error: any;
-
+  addmoney=false;
 
   public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
   public useruploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
@@ -56,8 +56,14 @@ export class ProfileComponent implements OnInit{
         if (status === 200) {      
             let resobj = JSON.parse(response);
             // element.filename=resobj.filename;
-            this.user.avatar=NODEUPLOAD+resobj.path;
-            this.user.avatar=this.user.avatar.replace(/\\/g,'/');
+            if(this.addmoney){
+              this.user.moneyimg=NODEUPLOAD+resobj.path;
+              this.user.moneyimg=this.user.moneyimg.replace(/\\/g,'/');
+            }else{
+              this.user.avatar=NODEUPLOAD+resobj.path;
+              this.user.avatar=this.user.avatar.replace(/\\/g,'/');
+            }
+            
         }  
      };
 
@@ -69,6 +75,10 @@ export class ProfileComponent implements OnInit{
        
       }  
     };
+  }
+
+  addMoneyImg():void{
+    this.addmoney=true;
   }
 
   getUser():void{
@@ -84,7 +94,7 @@ export class ProfileComponent implements OnInit{
     console.log(this.user);
     this.user.updatetime = today.toLocaleString();
     // this.user.bayid=Number(this.user.bayid);
-    
+    console.log(this.user);
     this.heroService
       .updateUser(this.user)
       .then(user => {

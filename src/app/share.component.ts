@@ -6,8 +6,8 @@ import { HeroService } from './hero.service';
 import { FileUploader } from 'ng2-file-upload';
 import { NODEUPLOAD } from './mock-data';
 // import { ImageResult, ResizeOptions } from 'ng2-imageupload';
-//import {CropperSettings,ImageCropperComponent} from 'ng2-img-cropper';
-//import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
+import {CropperSettings,ImageCropperComponent} from 'ng2-img-cropper';
+// import { ModalDirective } from 'ng2-bootstrap/modal/modal.component';
 
 @Component({
   selector: 'my-share',
@@ -28,18 +28,18 @@ export class ShareComponent implements OnInit {
   error: any;
   src: string = "";
 
-  // data: any;
-  // cropperSettings: CropperSettings;
-  // image: any;
-  // profileCropperSettings: CropperSettings;
-  // hasBaseDropZoneOver: boolean = false;
-  // hasAnotherDropZoneOver: boolean = false;
+  data: any;
+  cropperSettings: CropperSettings;
+  image: any;
+  profileCropperSettings: CropperSettings;
+  hasBaseDropZoneOver: boolean = false;
+  hasAnotherDropZoneOver: boolean = false;
 
   public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
 
-  // @ViewChild('profileCropper', undefined)
-  //   profileCropper: ImageCropperComponent;
+  @ViewChild('profileCropper', undefined)
+    profileCropper: ImageCropperComponent;
 
   //@ViewChild('profileEditorModal') profileEditorModal:ModalDirective;
 
@@ -60,56 +60,61 @@ export class ShareComponent implements OnInit {
       this.story = new Story();
       this.story.comments=[];
       this.story.subcontents=[];
-      // this.story.coverthumbnail='';
+      this.story.likes=[];
+      this.story.coverthumbnail='';
       // console.log(this.story.coverthumbnail);
       // console.log(this.story);
     };
 
     this.getUser();
 
-    // this.cropperSettings = new CropperSettings();
-    //     this.cropperSettings.width = this.innerWidth-48;
-    //     //this.cropperSettings.height = (this.cropperSettings.croppedWidth/16*9);
-    //     this.cropperSettings.croppedWidth =this.innerWidth-48;
-    //     this.cropperSettings.croppedHeight = (this.cropperSettings.croppedWidth/16*9);
-    //     this.cropperSettings.canvasWidth = 400;
-    //     this.cropperSettings.canvasHeight = 300;
+    this.cropperSettings = new CropperSettings();
+        this.cropperSettings.width = this.innerWidth-48;
+        //this.cropperSettings.height = (this.cropperSettings.croppedWidth/16*9);
+        this.cropperSettings.croppedWidth =this.innerWidth-48;
+        this.cropperSettings.croppedHeight = (this.cropperSettings.croppedWidth/16*9);
+        this.cropperSettings.canvasWidth = 400;
+        this.cropperSettings.canvasHeight = 300;
  
-    //     this.data = {};
+        this.data = {};
 
-    // this.uploader.onAfterAddingFile = f => { 
-    //         var file: File = f._file;//e.target.files[0];
-    //         var fileReader: FileReader = new FileReader();
-    //         var that = this;
-    //         fileReader.onloadend = function (loadEvent: any) {
-    //             that.image.src = loadEvent.target.result;
-    //             that.profileCropper.setImage(that.image);  
+    this.uploader.onAfterAddingFile = f => { 
+            this.image = new Image();
+            var file: File = f._file;//e.target.files[0];
+            var fileReader: FileReader = new FileReader();
+            var that = this;
+            console.log(f);
+            fileReader.onloadend = function (loadEvent: any) {
+                that.image.src = loadEvent.target.result;
+                that.profileCropper.setImage(that.image);  
                  
-    //         };
+            };
 
-    //         fileReader.readAsDataURL(file);
+            fileReader.readAsDataURL(file);
+            console.log(this.image);
+            console.log(this.data);
             
-    //     }
+        }
 
     this.setuploader();
-    // this.uploader.onCompleteItem = (item, response, status, header) => {
-    //     console.log(this.story);
-    //     if (status === 200) {      
-    //         let resobj = JSON.parse(response);
-    //         // element.filename=resobj.filename;\
-    //         console.log(this.addsub);
-    //         if(this.addsub){
-    //           let subc = this.story.subcontents[this.story.subcontents.length-1];
-    //           subc.thumbnail=this.data;
-    //           subc.illustration=NODEUPLOAD+resobj.path;
-    //         }else{
-    //           this.story.cover=NODEUPLOAD+resobj.path;
-    //           this.story.coverthumbnail=this.data;
-    //         }
+    this.uploader.onCompleteItem = (item, response, status, header) => {
+        console.log(this.story);
+        if (status === 200) {      
+            let resobj = JSON.parse(response);
+            // element.filename=resobj.filename;\
+            console.log(this.addsub);
+            if(this.addsub){
+              let subc = this.story.subcontents[this.story.subcontents.length-1];
+              subc.thumbnail=this.data;
+              subc.illustration=NODEUPLOAD+resobj.path;
+            }else{
+              this.story.cover=NODEUPLOAD+resobj.path;
+              this.story.coverthumbnail=this.data;
+            }
             
             
-    //     }  
-    //   };
+        }  
+      };
 
   }
 
@@ -122,12 +127,12 @@ export class ShareComponent implements OnInit {
             console.log(this.addsub);
             if(this.addsub){
               let subc = this.story.subcontents[this.story.subcontents.length-1];
-              //subc.thumbnail=JSON.parse(JSON.stringify(this.data));
+              subc.thumbnail=JSON.parse(JSON.stringify(this.data));
               subc.illustration=NODEUPLOAD+resobj.path;
               console.log(this.story);
             }else{
               this.story.cover=NODEUPLOAD+resobj.path;
-              //this.story.coverthumbnail=JSON.parse(JSON.stringify(this.data));
+              this.story.coverthumbnail=JSON.parse(JSON.stringify(this.data));
             }
             
             
@@ -150,6 +155,7 @@ export class ShareComponent implements OnInit {
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
       this.story.owner=this.user.name;
       this.story.ownerid=this.user.id;
+      this.story.moneyimg=this.user.moneyimg;
       this.story.bayid=this.user.bayid;
       this.story.role=this.user.nickname;
       this.story.avatar=this.user.avatar;
@@ -158,7 +164,7 @@ export class ShareComponent implements OnInit {
   }
 
   save(): void {
-    //console.log(this.regarray);
+    console.log(this.story);
     
     if (this.story.description.length > 60){
       this.story.subtitle=this.story.description.substr(0,60)+'...';
@@ -172,6 +178,7 @@ export class ShareComponent implements OnInit {
         .saveStory(this.story)
         .then(story => {
           this.story = story; 
+          console.log(this.story);
           this.goBack();
         })
         .catch(error => this.error = error); 
