@@ -5,7 +5,7 @@ import { Headers, Http, Response,URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import  {HOST} from './mock-data'
 
-import { Bay,Story,StoryComment,User} from './hero';
+import { Bay,Story,StoryComment,User,UserInfo} from './hero';
 
 
 @Injectable()
@@ -24,6 +24,7 @@ export class HeroService {
   private userbynameUrl = HOST+'userbyname';
   private usersUrl = HOST+'users';
   private likeUrl = HOST+'like';
+  private wxuserUrl = HOST+'wxuser';
 
 	getBay(user:User): Promise<Bay> {
     let params: URLSearchParams = new URLSearchParams();
@@ -244,6 +245,17 @@ export class HeroService {
       .get(this.userbynameUrl,{ search: params })
       .toPromise()
       .then(response => response.json().data as User)
+      .catch(this.handleError);
+  }
+
+  getWxUser(code:string): Promise<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('data', JSON.stringify({code:code}));
+
+    return this.http
+      .get(this.wxuserUrl,{ search: params })
+      .toPromise()
+      .then(response => response.json().data as UserInfo)
       .catch(this.handleError);
   }
 

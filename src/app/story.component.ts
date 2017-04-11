@@ -69,10 +69,32 @@ export class StoryComponent implements OnInit {
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
     }else{
       this.user= new User();
-      this.user.id=0;
+      this.user.id=Date.now();
       this.user.nickname="访客";
       this.user.avatar="https://www.starstech.tech:3201/uploads/defaultuser.jpg"
+      this.user.badge=0;
+      let body = JSON.stringify(this.user);
+      localStorage.setItem('sakura_user', body);
     }
+
+    this.route.queryParams.forEach((params: Params) => {
+      //nsole.log(params);
+      if (params['code'] !== undefined) {
+        let code = params['code'];
+        this.heroService.getWxUser(code)
+          .then(r=>{
+            console.log(r);
+            this.user.nickname=r.nickname;
+            this.user.sex=r.sex;
+            this.user.avatar=r.headimgurl;
+            this.user.token=r.openid;
+            let body = JSON.stringify(this.user);
+            localStorage.setItem('sakura_user', body);
+          })
+          .catch(error => this.error = error);
+      } else {
+      }
+    });
   }
 
   deleteStory(story:Story,user:User):void{

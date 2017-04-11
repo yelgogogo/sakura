@@ -29,6 +29,7 @@ export class SignupComponent implements OnInit{
     this.user.password=password;
     this.user.nickname=nickname;
     this.user.invitekey=bayid;
+    this.user.badge=1;
     this.user.avatar=this.user.avatar="https://www.starstech.tech:3201/uploads/defaultuser.jpg";
     this.heroService.postUser(this.user)
       .then(useri => 

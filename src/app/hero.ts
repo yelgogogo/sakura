@@ -26,7 +26,7 @@ export class People{
   avatar:string;
   role:string;
   nickname:string;
-  badge:string;
+  token:string;
 }
 
 export class Skill{
@@ -100,7 +100,9 @@ export class User {
   id: number;
   bayid:number;
   avatar:string;
+  badge:number;
   moneyimg:string;
+  sex:number;
   role:string;
   name: string;
   nickname:string;
@@ -112,4 +114,15 @@ export class User {
   email:string;
   starttime:string;
   updatetime:string;
+}
+
+export class UserInfo{
+  openid:string;
+  nickname:string;
+  sex:number;
+  province:string;
+  city:string;
+  country:string;
+  headimgurl:string;
+  privilege:any[];
 }

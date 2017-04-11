@@ -84,9 +84,11 @@ export class HomeComponent implements OnInit{
     this.innerHeight=window.screen.height;
 
     this.getUser();
-
+    // console.log(this.route.queryParams.forEach((params: Params) => {
+    //   console.log(params);}));
+    // console.log(this.route.queryParams);
     this.route.params.forEach((params: Params) => {
-
+      console.log(params);
       if (params['id'] !== undefined) {
         let id = +params['id'];
         this.user.bayid=id;
@@ -94,6 +96,7 @@ export class HomeComponent implements OnInit{
       }
     });
 
+    
     
     this.heroService.getBay(this.user)
       .then(rep=>{
@@ -108,16 +111,41 @@ export class HomeComponent implements OnInit{
   }
 
   getUser():void{
+
+
     // let body = JSON.stringify({name:'Michael',bayid:1,role:'教主' });
     // localStorage.setItem('sakura_user',body);
     if(localStorage.getItem('sakura_user') ){
       this.user=JSON.parse(localStorage.getItem('sakura_user'));
     }else{
       this.user= new User();
-      this.user.id=0;
+      this.user.id=Date.now();
       this.user.nickname="访客";
-      this.user.avatar="https://www.starstech.tech:3201/uploads/defaultuser.jpg"
+      this.user.avatar="https://www.starstech.tech:3201/uploads/defaultuser.jpg";
+      this.user.badge=0;
+      let body = JSON.stringify(this.user);
+      localStorage.setItem('sakura_user', body);
     }
+
+    this.route.queryParams.forEach((params: Params) => {
+      console.log(params);
+      console.log(params['code']);
+      if (params['code'] !== undefined) {
+        let code = params['code'];
+        this.heroService.getWxUser(code)
+          .then(r=>{
+            console.log(r);
+            this.user.nickname=r.nickname;
+            this.user.sex=r.sex;
+            this.user.avatar=r.headimgurl;
+            this.user.token=r.openid;
+            let body = JSON.stringify(this.user);
+            localStorage.setItem('sakura_user', body);
+          })
+          .catch(error => this.error = error);
+      } else {
+      }
+    });
   }
 
   selectCard(story:Story):void{
@@ -189,6 +217,7 @@ export class HomeComponent implements OnInit{
     people.id=this.user.id;
     people.nickname=this.user.nickname;
     people.avatar=this.user.avatar;
+    //people.token=this.user.token;
     if (!story.likes){story.likes=[]};
     let pushcheck=story.likes.find(f=> f.id===people.id );
     if (!pushcheck){
@@ -202,7 +231,6 @@ export class HomeComponent implements OnInit{
         })
         .catch(error => this.error = error);
     }
-    
   }
 
   doSwipe(direction: string) {
