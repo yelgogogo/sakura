@@ -77,24 +77,26 @@ export class StoryComponent implements OnInit {
       localStorage.setItem('sakura_user', body);
     }
 
-    this.route.queryParams.forEach((params: Params) => {
-      //nsole.log(params);
-      if (params['code'] !== undefined) {
-        let code = params['code'];
-        this.heroService.getWxUser(code)
-          .then(r=>{
-            console.log(r);
-            this.user.nickname=r.nickname;
-            this.user.sex=r.sex;
-            this.user.avatar=r.headimgurl;
-            this.user.token=r.openid;
-            let body = JSON.stringify(this.user);
-            localStorage.setItem('sakura_user', body);
-          })
-          .catch(error => this.error = error);
-      } else {
-      }
-    });
+    if (this.user.openid){
+
+    }else{
+      this.route.queryParams.forEach((params: Params) => {
+        //nsole.log(params);
+        if (params['code'] !== undefined) {
+          let code = params['code'];
+          this.heroService.getWxUser(code,this.user)
+            .then(r=>{
+              //console.log(r);
+              this.user=r;
+              let body = JSON.stringify(this.user);
+              localStorage.setItem('sakura_user', body);
+            })
+            .catch(error => this.error = error);
+        } else {
+        }
+      });
+      
+    }
   }
 
   deleteStory(story:Story,user:User):void{

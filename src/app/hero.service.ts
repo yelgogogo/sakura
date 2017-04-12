@@ -248,14 +248,14 @@ export class HeroService {
       .catch(this.handleError);
   }
 
-  getWxUser(code:string): Promise<any> {
+  getWxUser(code:string,user:User): Promise<User> {
     let params: URLSearchParams = new URLSearchParams();
-    params.set('data', JSON.stringify({code:code}));
+    params.set('data', JSON.stringify({code:code,user:JSON.stringify(user)}));
 
     return this.http
       .get(this.wxuserUrl,{ search: params })
       .toPromise()
-      .then(response => response.json().data as UserInfo)
+      .then(response => response.json().data as User)
       .catch(this.handleError);
   }
 

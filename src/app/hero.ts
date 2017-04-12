@@ -110,19 +110,20 @@ export class User {
   status: string;
   remember:boolean;
   token:string;
+  openid:string;
   rights:number[];
   email:string;
   starttime:string;
   updatetime:string;
 }
 
-export class UserInfo{
-  openid:string;
-  nickname:string;
-  sex:number;
-  province:string;
-  city:string;
-  country:string;
-  headimgurl:string;
-  privilege:any[];
-}
+// export class UserInfo{
+//   openid:string;
+//   nickname:string;
+//   sex:number;
+//   province:string;
+//   city:string;
+//   country:string;
+//   headimgurl:string;
+//   privilege:any[];
+// }

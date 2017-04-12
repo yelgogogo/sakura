@@ -1,5 +1,5 @@
 import { Component,OnInit,OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute, Params } from '@angular/router';
 import { Http } from '@angular/http';
 import { HeroService } from './hero.service';
 import { User } from './hero';
@@ -19,8 +19,9 @@ export class LoginComponent implements OnInit,OnDestroy{
   nightmode=false;
   innerHeight:number;
   subscription: Subscription;
+  error: any;
 
-  constructor(public router: Router, public http: Http, private heroService: HeroService, private missionService: MissionService) {
+  constructor(public router: Router, private route: ActivatedRoute,public http: Http, private heroService: HeroService, private missionService: MissionService) {
     // this.subscription = missionService.modeChanged$.subscribe(
     //   mission => {
     //     // this.page=LOGINPAGE.find(page=>page.id == mission);
@@ -49,6 +50,27 @@ export class LoginComponent implements OnInit,OnDestroy{
       }    
     }
     this.nightmode=this.missionService.share;
+
+    if (this.user.openid){
+      this.router.navigate(['/home', this.user.bayid]);
+    }else{
+      this.route.queryParams.forEach((params: Params) => {
+        console.log(params);
+        console.log(params['code']);
+        if (params['code'] !== undefined) {
+          let code = params['code'];
+          this.heroService.getWxUser(code,this.user)
+            .then(r=>{
+              //console.log(r);
+              this.user=r;
+              let body = JSON.stringify(this.user);
+              localStorage.setItem('sakura_user', body);
+            })
+            .catch(error => this.error = error);
+        } else {
+        }
+      });
+    }
     // //console.log(this.missionService.modeChanged$);
     // //console.log(this.missionService.share);
   }
