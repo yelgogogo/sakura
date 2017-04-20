@@ -5,7 +5,7 @@ import { Headers, Http, Response,URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import  {HOST} from './mock-data'
 
-import { Bay,Story,StoryComment,User,UserInfo} from './hero';
+import { Bay,Story,StoryComment,User} from './hero';
 
 
 @Injectable()

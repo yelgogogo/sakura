@@ -24,4 +24,14 @@ h3{
 
 .rmps{
 	/*float: left;*/
-};
+}
+
+.footer {
+    font-size: 12px;
+    line-height: 21px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

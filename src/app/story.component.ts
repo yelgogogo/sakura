@@ -20,6 +20,7 @@ export class StoryComponent implements OnInit {
   newcomment:StoryComment;
   editstory=false;
   addgift=false;
+  wxurl='';
   // public uploader:FileUploader = new FileUploader({url:NODEUPLOAD+'upload/'});
 
   constructor(
@@ -30,9 +31,9 @@ export class StoryComponent implements OnInit {
   ngOnInit(): void {
     this.story = new Story();
     this.getUser();
-
+   
     this.route.params.forEach((params: Params) => {
-
+      
       if (params['id'] !== undefined) {
         let id = +params['id'];
         this.heroService.getStoryById(id)
@@ -53,6 +54,17 @@ export class StoryComponent implements OnInit {
     //     }  
     //   };
 
+  }
+
+  wxShare():void{
+    let qrurl='https://pan.baidu.com/share/qrcode?w=250&h=250&url='
+    let redirectyrl=location.href;
+    //redirectyrl='https://www.starstech.cc/story/25'
+    let tmpurl='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd97ecfda77d6b9ae&redirect_uri='+redirectyrl+'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
+    // console.log(tmpurl);
+    this.wxurl=qrurl+encodeURIComponent(tmpurl);
+    // console.log(encodeURIComponent(tmpurl));
+    // console.log(this.wxurl);
   }
 
   addComment():void{

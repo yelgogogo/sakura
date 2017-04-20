@@ -35,7 +35,6 @@
           </button>
           <button  md-icon-button (click)="gotoStory(story)">
             <md-icon color="primary">comment</md-icon>
-            
             <span *ngIf="story.comments">{{story.comments.length}}</span>
           </button>
           <button  md-icon-button (click)="like(story)" [disabled]="likeDone(user,story)">
@@ -49,7 +48,7 @@
 <!--     </md-tab>
   </md-tab-group> -->
   </md-card>
-  <div class="fabbtn" *ngIf="this.user.badge===0">
+  <div class="fabbtn" *ngIf="user.badge===1&&user.bayid===bay.id">
     <button md-fab  (click)="gotoShare()"><md-icon>add</md-icon></button>
   </div>
 </div>
